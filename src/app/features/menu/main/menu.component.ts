@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { UserInfo } from '../../authentication/login/core/auth.model';
+import { UserInfo } from '../../authentication/login/core/login.model';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';

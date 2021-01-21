@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { environment } from "src/environments/environment";
-
-
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
@@ -16,7 +14,7 @@ import { environment } from "src/environments/environment";
 export class RegisterComponent implements OnInit {
 
     emailValidationRegEx = '^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*([-]{1})?@[a-z0-9]+([\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$';
-    loginForm: FormGroup;
+    registerForm: FormGroup;
     hasError = false;
     checked = false;
     constructor(
@@ -28,30 +26,35 @@ export class RegisterComponent implements OnInit {
     ngOnInit() {
         this.titleService.setTitle(`${environment.appName} | Login`)
 
-        this.loginForm = this.formBuilder.group({
+        this.registerForm = this.formBuilder.group({
           login: [
             '',
             Validators.compose([
               Validators.pattern(this.emailValidationRegEx),
               Validators.required])
           ],
-          password: ['', Validators.required]
-        }
+          password: ['', Validators.required],
+          verify_password: ['', Validators.required],
+          commune :  ['', Validators.required],
+          pseudo :  ['', Validators.required]
+        },
+       
         );
     }
 
     keyPress(event) {
         // On enter pressed
         if (event.keyCode === 13) {
-          this.onLoginClick();
+          this.onRegisterClick();
         }
       }
 
-    onLoginClick() {
-        if (this.loginForm.valid) {
+    onRegisterClick() {
+        if (this.registerForm.valid) {
           this.router.navigate(['/home', {}]);
         } else {
-          this.loginForm.markAllAsTouched();
+          this.registerForm.markAllAsTouched();
         }
       }
+
 }
