@@ -3,7 +3,18 @@
     <mat-card class="auth-card">
         <mat-card-content>
             <form class="my-form">
-                <h1 class="title">Connexion</h1>
+                <h1 class="title">S'inscrire</h1>
+
+               <div class="row">
+                <mat-form-field class="full-width">
+                    <mat-label class="require">Pseudo :</mat-label>
+                    <input (keypress)="keyPress($event)" [formControl]="loginForm.controls.pseudo" type="pseudo" matInput placeholder="Pseudo">
+                    <mat-error *ngIf="loginForm.controls.pseudo.hasError('required')">
+                        Ce champs est obligatoire
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
                 <div class="row">
                 <mat-form-field class="full-width">
                     <mat-label class="require">Email :</mat-label>
@@ -14,10 +25,19 @@
                     <mat-error *ngIf="loginForm.controls.login.hasError('required')">
                         Ce champs est obligatoire
                     </mat-error>
-               
-
                 </mat-form-field>
             </div>
+
+                <div class="row">
+                <mat-form-field class="full-width">
+                    <mat-label class="require">Commune :</mat-label>
+                    <input (keypress)="keyPress($event)" [formControl]="loginForm.controls.commune" type="commune" matInput placeholder="Commune">
+                    <mat-error *ngIf="loginForm.controls.commune.hasError('required')">
+                        Ce champs est obligatoire
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
             <div class="row">
                 <mat-form-field class="full-width">
                     <mat-label class="require">Mot de passe :</mat-label>
@@ -25,9 +45,9 @@
                     <mat-error *ngIf="loginForm.controls.password.hasError('required')">
                         Ce champs est obligatoire
                     </mat-error>
-
                 </mat-form-field>
             </div>
+            
                 <div class="error" *ngIf="hasError">Identifiant ou mot de passe incorrecte</div>
 
             </form>
@@ -37,7 +57,7 @@
             <button class="btn" mat-raised-button (click)="onLoginClick()" >Valider</button>
         </mat-card-actions>
         <div class="registerLink">
-        <a href="localhost:4200/register">Toujours pas inscrit ? S'inscrire</a> 
+        <a href="localhost:4200/login">Toujours pas inscrit ? S'inscrire</a> 
     </div>
     </mat-card>
 </div>
