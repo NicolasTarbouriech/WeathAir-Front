@@ -1,0 +1,40 @@
+<div class="home-container">
+    <div class="mat-elevation-z4">
+        <mat-toolbar>
+            <button mat-icon-button color="primary" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+            <span>My smart application</span>
+            <span class="spacer"></span>
+            <button (click)="onLogoutClick()" class="logout-btn" mat-button>
+        <mat-icon>exit_to_app</mat-icon>
+        <span class="logout-label">Se deconnecter</span>
+      </button>
+        </mat-toolbar>
+
+    </div>
+
+    <mat-sidenav-container class="example-container">
+        <mat-sidenav #sidenav mode="over">
+            <mat-nav-list>
+
+                <div *ngFor="let nav of menus">
+                    <a mat-list-item routerLinkActive="active" [routerLink]="nav.link">
+                        <mat-icon matListIcon> {{nav.icon}}</mat-icon>
+                        {{nav.label}}
+                    </a>
+                </div>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+            <div class="home-content">
+                <nav mat-tab-nav-bar>
+                    <a mat-tab-link *ngFor="let nav of menus" [routerLink]="nav.link" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">{{nav.label}}</a>
+                </nav>
+                <router-outlet #o="outlet"></router-outlet>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+
+</div>

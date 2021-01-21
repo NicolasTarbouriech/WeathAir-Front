@@ -3,8 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  appName : 'My Smart App [DEV]',
+  api: {
+    BASE_URL: 'https://demo0635484.mockable.io/',
+    API_VERSION: 'api/v1',
+  }
 };
+
+
 
 /*
  * For easier debugging in development mode, you can import the following file
