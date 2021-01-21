@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { UserInfo } from './../../authentication/login/core/auth.model';
+import { UserInfo } from '../../authentication/login/core/auth.model';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
@@ -7,38 +7,36 @@ import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class MenuComponent implements OnInit, OnDestroy {
 
-
+  title = '';
   menus = [];
   navigation = [];
   mode = new FormControl('over');
 
-
   constructor( private router: Router ) {
     this.initMenuItems();
-
-
   }
+
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {}
 
   private initMenuItems() {
     // les noms des icons disponible sur : https://material.io/resources/icons/
+    this.title = 'WeathAir';
     this.menus = [
-      { link: '/home/feed', label: 'Fil d\'actualité', icon: 'home', hasAcces$: of(true)},
-      { link: '/home/messenger', label: 'Messagerie', icon: 'verified_user', hasAcces$: of(true) },
+      { link: '/home/forum', label: 'Forum'}
     ];
   }
 
   onLogoutClick() {
     this.router.navigate(['/login', {}]);
   }
-  ngOnInit(): void { }
-
-  ngOnDestroy(): void {
-  }
+  
 }

@@ -15,7 +15,12 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () =>
-      import('./features/home/home.module').then(m => m.HomeModule)
+      import('./features/menu/home/home.module').then(m => m.HomeModule)
+  },
+  {
+    path: 'forum',
+    loadChildren: () =>
+      import('./features/menu/forum/forum.module').then(m => m.ForumModule)
   },
 ];
 
