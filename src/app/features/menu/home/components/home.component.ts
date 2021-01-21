@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,14 +9,14 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  constructor( ) {
-
-
+  constructor(private router: Router) {
   }
-
 
   ngOnInit(): void { }
 
-  ngOnDestroy(): void {
+  ngOnDestroy(): void {}
+
+  btnClick () {
+    this.router.navigateByUrl('/indicators');
   }
 }
