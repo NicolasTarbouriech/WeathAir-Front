@@ -1,18 +1,15 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
 @Component({
-  selector: 'app-feed',
-  templateUrl: './feed.component.html',
-  styleUrls: ['./feed.component.scss'],
+  selector: 'app-forum',
+  templateUrl: './forum.component.html',
+  styleUrls: ['./forum.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FeedComponent implements OnInit, OnDestroy {
+export class ForumComponent implements OnInit, OnDestroy {
 
   constructor( ) {
-
-
   }
-
 
   ngOnInit(): void { }
 
