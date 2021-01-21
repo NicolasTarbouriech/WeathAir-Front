@@ -11,7 +11,7 @@ export interface UserInfo {
     name: string;
   }
   
-  export interface AuthToken {
+  export interface RegisterToken {
     token_type: string;
     access_token: string;
     expires_in: number;

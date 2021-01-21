@@ -7,9 +7,9 @@
 
                <div class="row">
                 <mat-form-field class="full-width">
-                    <mat-label class="require">Pseudo :</mat-label>
-                    <input (keypress)="keyPress($event)" [formControl]="loginForm.controls.pseudo" type="pseudo" matInput placeholder="Pseudo">
-                    <mat-error *ngIf="loginForm.controls.pseudo.hasError('required')">
+                    <mat-label class="require">Pseudo </mat-label>
+                    <input [formControl]="registerForm.controls.pseudo" matInput placeholder="Pseudo" autocomplete="off">
+                    <mat-error *ngIf="registerForm.controls.pseudo.hasError('required')">
                         Ce champs est obligatoire
                     </mat-error>
                 </mat-form-field>
@@ -17,12 +17,12 @@
 
                 <div class="row">
                 <mat-form-field class="full-width">
-                    <mat-label class="require">Email :</mat-label>
-                    <input [formControl]="loginForm.controls.login" matInput placeholder="Identifiant" autocomplete="off">
-                    <mat-error *ngIf="loginForm.controls.login.hasError('pattern')">
+                    <mat-label class="require">Email </mat-label>
+                    <input [formControl]="registerForm.controls.login" matInput placeholder="Identifiant" autocomplete="off">
+                    <mat-error *ngIf="registerForm.controls.login.hasError('pattern')">
                         Format d'email incorrect
                     </mat-error>
-                    <mat-error *ngIf="loginForm.controls.login.hasError('required')">
+                    <mat-error *ngIf="registerForm.controls.login.hasError('required')">
                         Ce champs est obligatoire
                     </mat-error>
                 </mat-form-field>
@@ -30,9 +30,9 @@
 
                 <div class="row">
                 <mat-form-field class="full-width">
-                    <mat-label class="require">Commune :</mat-label>
-                    <input (keypress)="keyPress($event)" [formControl]="loginForm.controls.commune" type="commune" matInput placeholder="Commune">
-                    <mat-error *ngIf="loginForm.controls.commune.hasError('required')">
+                    <mat-label class="require">Commune </mat-label>
+                    <input (keypress)="keyPress($event)" [formControl]="registerForm.controls.commune"type="commune" matInput placeholder="Commune">
+                    <mat-error *ngIf="registerForm.controls.commune.hasError('required')">
                         Ce champs est obligatoire
                     </mat-error>
                 </mat-form-field>
@@ -40,24 +40,39 @@
 
             <div class="row">
                 <mat-form-field class="full-width">
-                    <mat-label class="require">Mot de passe :</mat-label>
-                    <input (keypress)="keyPress($event)" [formControl]="loginForm.controls.password" type="password" matInput placeholder="Mot de passe">
-                    <mat-error *ngIf="loginForm.controls.password.hasError('required')">
+                    <mat-label class="require">Mot de passe </mat-label>
+                    <input (keypress)="keyPress($event)" [formControl]="registerForm.controls.password" type="password" matInput placeholder="Mot de passe">
+                    <mat-error *ngIf="registerForm.controls.password.hasError('required')">
                         Ce champs est obligatoire
                     </mat-error>
                 </mat-form-field>
             </div>
             
+            <div class="row">
+                <mat-form-field class="full-width">
+                    <mat-label class="require">Vérification du mot de passe</mat-label>
+                    <input (keypress)="keyPress($event)" [formControl]="registerForm.controls.verify_password" type="password" matInput placeholder="Mot de passe">
+                    <mat-error *ngIf="registerForm.controls.verify_password.hasError('required')">
+                        Ce champs est obligatoire
+                    </mat-error>
+                    <mat-error *ngIf="registerForm.controls.verify_password.errors.mustMatch">Passwords must match</mat-error>
+                </mat-form-field>
+            </div>
+     
                 <div class="error" *ngIf="hasError">Identifiant ou mot de passe incorrecte</div>
 
             </form>
         </mat-card-content>
-        <mat-checkbox class="checked" [(ngModel)]="checked">Se souvenir de moi</mat-checkbox>
+   
+        <a [routerLink]="'/cgu'" class="cgu">Conditions générales d'utilisation</a>
+ 
+        <mat-radio-button class="radio-button" value="after">J'ai lu et j'accepte les conditions générales d'utilisation</mat-radio-button>
+    
         <mat-card-actions>
-            <button class="btn" mat-raised-button (click)="onLoginClick()" >Valider</button>
+            <button class="btn" mat-raised-button (click)="onRegisterClick()" >S'inscrire</button>
         </mat-card-actions>
         <div class="registerLink">
-        <a href="localhost:4200/login">Toujours pas inscrit ? S'inscrire</a> 
+       
     </div>
     </mat-card>
 </div>

@@ -1,4 +1,4 @@
-import {  LoginRequest } from './../core/auth.model';
+import {  LoginRequest } from '../core/login.model';
 import { FormBuilder, Form, Validators, FormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 

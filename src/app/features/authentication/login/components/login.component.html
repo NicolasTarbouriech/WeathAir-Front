@@ -32,12 +32,13 @@
 
             </form>
         </mat-card-content>
-        <mat-checkbox class="checked" [(ngModel)]="checked">Se souvenir de moi</mat-checkbox>
+        <mat-checkbox class="checked" [(ngModel)]="checked" color="primary">Se souvenir de moi</mat-checkbox>
         <mat-card-actions>
             <button class="btn" mat-raised-button (click)="onLoginClick()" >Valider</button>
         </mat-card-actions>
         <div class="registerLink">
-        <a href="localhost:4200/register">Toujours pas inscrit ? S'inscrire</a> 
+            <!-- redirige vers la page inscription avec le routerLink-->
+            <a [routerLink]="'/register'">Toujours pas inscrit? S'inscrire.</a>
     </div>
     </mat-card>
 </div>
