@@ -10,7 +10,12 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () =>
-      import('./features/authentication/auth.module').then(m => m.AuthModule)
+      import('./features/authentication/login/login.module').then(m => m.LoginModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () =>
+      import('./features/authentication/register/register.module').then(m => m.RegisterModule)
   },
   {
     path: 'indicators',
@@ -28,7 +33,7 @@ const routes: Routes = [
       import('./features/menu/home/home.module').then(m => m.HomeModule)
   },
   {
-    path: 'forum',
+    path: 'home/forum',
     loadChildren: () =>
       import('./features/menu/forum/forum.module').then(m => m.ForumModule)
   },

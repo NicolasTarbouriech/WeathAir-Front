@@ -1,12 +1,12 @@
-import { api } from './../../../../core/api/api.vars';
-import { environment } from './../../../../../environments/environment';
+import { api } from '../../../../core/api/api.vars';
+import { environment } from '../../../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import {
   LoginRequest,
-  AuthToken,
+ LoginToken,
   UserInfo,
-} from './auth.model';
+} from './login.model';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { share } from 'rxjs/operators';
 
@@ -18,12 +18,12 @@ export class AuthService {
 
   retrieveAuthToken(
     request: LoginRequest,
-  ): Observable<AuthToken> {
+  ): Observable<LoginToken> {
     const body = new HttpParams()
       .set('password', request.password)
       .set('email', request.username);
 
-    return this.httpClient.post<AuthToken>(
+    return this.httpClient.post<LoginToken>(
       `${environment.api.BASE_URL}${environment.api.API_VERSION}${api.endpoints.auth.LOGIN}`,
       body.toString(),
       {
@@ -34,7 +34,7 @@ export class AuthService {
   }
 
 
-  retrieveUserData(token : AuthToken): Observable<UserInfo> {
+  retrieveUserData(token : LoginToken): Observable<UserInfo> {
     return this.httpClient
       .get<UserInfo>(
         `${environment.api.BASE_URL}${environment.api.API_VERSION}${api.endpoints.auth.ME}`,
@@ -46,6 +46,21 @@ export class AuthService {
       .pipe(share());
   }
 
+  // seConnecter(email: string, mdp: string): Observable<UserInfo> {
+
+  //   const config = {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/x-www-form-urlencoded'
+  //     })
+  //   };
+
+  //   return this.httpClient.post(`${environment.api.BASE_URL}${environment.api.API_VERSION}`,
+  //     new HttpParams().set('username', email).set('password', mdp), config)
+  //     .pipe(
+  //       map(colServeur => new UserInfo(colServeur)),
+  //       tap(col => this.collegueConnecteSub.next(col) )
+  //     );
+  // }
 
 
 

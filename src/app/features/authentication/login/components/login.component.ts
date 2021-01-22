@@ -1,4 +1,4 @@
-import {  LoginRequest } from './../core/auth.model';
+import {  LoginRequest } from '../core/login.model';
 import { FormBuilder, Form, Validators, FormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
@@ -15,7 +15,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class LoginComponent implements OnInit {
   emailValidationRegEx = '^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*([-]{1})?@[a-z0-9]+([\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$';
-
+  checked = false;
   isLoading: Boolean = false;
   loginRequest: LoginRequest = {
     password: '',

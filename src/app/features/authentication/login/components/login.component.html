@@ -1,12 +1,12 @@
 <div class="login-page">
-    <mat-toolbar>
-        <span>Bienvenue sur l'application XXXXX</span>
-    </mat-toolbar>
+  
     <mat-card class="auth-card">
         <mat-card-content>
             <form class="my-form">
+                <h1 class="title">Connexion</h1>
+                <div class="row">
                 <mat-form-field class="full-width">
-                    <mat-label>Identifiant</mat-label>
+                    <mat-label class="require">Email :</mat-label>
                     <input [formControl]="loginForm.controls.login" matInput placeholder="Identifiant" autocomplete="off">
                     <mat-error *ngIf="loginForm.controls.login.hasError('pattern')">
                         Format d'email incorrect
@@ -14,24 +14,31 @@
                     <mat-error *ngIf="loginForm.controls.login.hasError('required')">
                         Ce champs est obligatoire
                     </mat-error>
-
+               
 
                 </mat-form-field>
+            </div>
+            <div class="row">
                 <mat-form-field class="full-width">
-                    <mat-label>Mot de passe</mat-label>
+                    <mat-label class="require">Mot de passe :</mat-label>
                     <input (keypress)="keyPress($event)" [formControl]="loginForm.controls.password" type="password" matInput placeholder="Mot de passe">
                     <mat-error *ngIf="loginForm.controls.password.hasError('required')">
                         Ce champs est obligatoire
                     </mat-error>
 
                 </mat-form-field>
-
+            </div>
                 <div class="error" *ngIf="hasError">Identifiant ou mot de passe incorrecte</div>
 
             </form>
         </mat-card-content>
+        <mat-checkbox class="checked" [(ngModel)]="checked" color="primary">Se souvenir de moi</mat-checkbox>
         <mat-card-actions>
-            <button mat-raised-button (click)="onLoginClick()" color="primary">Connexion</button>
+            <button class="btn" mat-raised-button (click)="onLoginClick()" >Valider</button>
         </mat-card-actions>
+        <div class="registerLink">
+            <!-- redirige vers la page inscription avec le routerLink-->
+            <a [routerLink]="'/register'">Toujours pas inscrit? S'inscrire.</a>
+    </div>
     </mat-card>
 </div>
