@@ -7,11 +7,11 @@
                 <div class="row">
                 <mat-form-field class="full-width">
                     <mat-label class="require">Email :</mat-label>
-                    <input [formControl]="loginForm.controls.login" matInput placeholder="Identifiant" autocomplete="off">
-                    <mat-error *ngIf="loginForm.controls.login.hasError('pattern')">
+                    <input [formControl]="loginForm.controls.email" matInput placeholder="Identifiant">
+                    <mat-error *ngIf="loginForm.controls.email.hasError('pattern')">
                         Format d'email incorrect
                     </mat-error>
-                    <mat-error *ngIf="loginForm.controls.login.hasError('required')">
+                    <mat-error *ngIf="loginForm.controls.email.hasError('required')">
                         Ce champs est obligatoire
                     </mat-error>
                
@@ -28,13 +28,13 @@
 
                 </mat-form-field>
             </div>
-                <div class="error" *ngIf="hasError">Identifiant ou mot de passe incorrecte</div>
+                <div class="error" *ngIf="hasError">Identifiant ou mot de passe incorrect</div>
 
             </form>
         </mat-card-content>
         <mat-checkbox class="checked" [(ngModel)]="checked" color="primary">Se souvenir de moi</mat-checkbox>
         <mat-card-actions>
-            <button class="btn" mat-raised-button (click)="onLoginClick()" >Valider</button>
+            <button class="btn" mat-raised-button (click)="getLogin()" >Connexion</button>
         </mat-card-actions>
         <div class="registerLink">
             <!-- redirige vers la page inscription avec le routerLink-->

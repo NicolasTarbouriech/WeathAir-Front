@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   appName : 'My Smart App [DEV]',
   api: {
-    BASE_URL: 'http:localhost:8080/',
+    // BASE_URL: 'http:localhost:8080/',
+    BASE_URL : 'http://localhost:8080/',
     API_VERSION: 'api/v1',
   }
 };
