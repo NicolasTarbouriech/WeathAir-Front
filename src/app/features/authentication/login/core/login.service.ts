@@ -1,70 +1,128 @@
 import { api } from '../../../../core/api/api.vars';
 import { environment } from '../../../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import {
-  LoginRequest,
- LoginToken,
-  UserInfo,
-} from './login.model';
+import { Observable, of,BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { share } from 'rxjs/operators';
+import { share, map , tap, catchError,  } from 'rxjs/operators';
+import { User } from './login.model';
+import { Router } from '@angular/router';
+
+
+
+const USER_ANONYM  = new User({});
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  constructor(private httpClient: HttpClient) { }
+export class LoginService {
 
-  retrieveAuthToken(
-    request: LoginRequest,
-  ): Observable<LoginToken> {
-    const body = new HttpParams()
-      .set('password', request.password)
-      .set('email', request.username);
+  private userConnectedSub: BehaviorSubject<User> = new BehaviorSubject(USER_ANONYM);
 
-    return this.httpClient.post<LoginToken>(
-      `${environment.api.BASE_URL}${environment.api.API_VERSION}${api.endpoints.auth.LOGIN}`,
-      body.toString(),
-      {
-        headers: new HttpHeaders()
-          .set('Content-Type', 'application/x-www-form-urlencoded')
+  constructor(private httpClient: HttpClient) {
+   }
+
+   recupererRoleUtilisateur(user : User) : string {
+    let valuePrecedent: number = 0;
+    let valueActuelle = 0;
+    let roleFinal;
+    user.role.forEach(valeurRole => {
+      valueActuelle = +valeurRole;
+      if(valueActuelle > valuePrecedent) {
+        valuePrecedent = valueActuelle;
       }
-    );
+      
+    switch ( valuePrecedent ){
+      case 2 :
+        roleFinal = "ROLE_ADMINISTRATOR";
+        break;
+
+      case 1 :
+        roleFinal = "ROLE_USER";
+        break;
+    }
+    });
+  
+    return roleFinal;
   }
 
 
-  retrieveUserData(token : LoginToken): Observable<UserInfo> {
-    return this.httpClient
-      .get<UserInfo>(
-        `${environment.api.BASE_URL}${environment.api.API_VERSION}${api.endpoints.auth.ME}`,
-        {
-          headers: new HttpHeaders()
-            .set('Authorization', `Bearer ${token.access_token}`)
-        }
-      )
-      .pipe(share());
+  get collegueConnecteObs(): Observable<User> {
+    return this.userConnectedSub.asObservable();
   }
 
-  // seConnecter(email: string, mdp: string): Observable<UserInfo> {
-
-  //   const config = {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/x-www-form-urlencoded'
-  //     })
-  //   };
-
-  //   return this.httpClient.post(`${environment.api.BASE_URL}${environment.api.API_VERSION}`,
-  //     new HttpParams().set('username', email).set('password', mdp), config)
-  //     .pipe(
-  //       map(colServeur => new UserInfo(colServeur)),
-  //       tap(col => this.collegueConnecteSub.next(col) )
-  //     );
-  // }
-
-
-
-  logout(): Observable<any> {
-    return of(null);
+  /**
+   * Service permettant de vérifier si un collegue est authentifié.
+   *
+   * Une requête HTTP est déclenchée pour récupérer le collègue connecté s'il n'est pas en cache.
+   *
+   */
+  checkAuthentication(): Observable<User> {
+    return this.userConnectedSub.getValue().notConnected() ?
+            this.httpClient.get<User>(`${environment.api.BASE_URL}
+            `, {withCredentials: true})
+                  .pipe(
+                    
+                    map(utilisateurServeur => new User(utilisateurServeur)),
+                    tap(u => this.userConnectedSub.next(u)),
+                    catchError(err => of(USER_ANONYM))
+                  ) :     of(this.userConnectedSub.getValue());
   }
+
+  /**
+   * Connexion de l'utilisateur.
+   *
+   * Le serveur provoque la création du cookie AUTH-TOKEN.
+   *
+   */
+  login(email: string, password: string): Observable<User> {
+    // return this.httpClient.post(`${environment.api.BASE_URL}api/login`,
+    //  new HttpParams().set('username', email).set('password', password));
+    
+    const config = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    };
+
+    return this.httpClient.post('http://localhost:8080/login',
+      new HttpParams().set('username', email).set('password', password), config)
+      .pipe(
+        map(userServeur => new User(userServeur)),
+        tap(col => this.userConnectedSub.next(col) )
+      );
+  }
+
+  /**
+   * Déconnexion de l'utilisateur.
+   *
+   * Le serveur provoque la suppression du cookie AUTH-TOKEN.
+   *
+   */
+  seDeconnecter() {
+
+    const config = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    };
+
+    localStorage.removeItem("idUser");
+    localStorage.removeItem("roleUser");
+
+    return this.httpClient.post<User>(`${environment.api.BASE_URL}${environment.api.API_VERSION}`, null , config)
+      .pipe(
+        tap(col => this.userConnectedSub.next(USER_ANONYM))
+      );
+  }
+
+
+  isAuthenticated() {
+
+    if ( localStorage.getItem("idUser") != null ){
+      return true;
+    } else {
+      return false
+    }
+    
+}
 }
