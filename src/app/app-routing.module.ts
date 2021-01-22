@@ -33,7 +33,7 @@ const routes: Routes = [
       import('./features/menu/home/home.module').then(m => m.HomeModule)
   },
   {
-    path: 'home/forum',
+    path: 'forum',
     loadChildren: () =>
       import('./features/menu/forum/forum.module').then(m => m.ForumModule)
   },

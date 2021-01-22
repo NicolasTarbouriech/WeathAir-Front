@@ -1,0 +1,14 @@
+.air-card {
+    max-width: 300px;
+    margin: 0 auto;
+    margin-top: 80px;
+    .air-card-header{
+        text-align: center;
+        font-size: xx-large;
+    }
+    .air-card-content{
+        .row {
+            margin: 7px;
+        }
+    }
+}

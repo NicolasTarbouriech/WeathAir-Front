@@ -9,6 +9,8 @@ import { MenuComponent } from './features/menu/main/menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './features/menu/home/components/home.component';
+import { HomeModule } from './features/menu/home/home.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
 
     SharedModule,
+    HomeModule,
 
     environment.production
       ? []
