@@ -1,9 +1,16 @@
+<ng-container>
+    <div class="home-card">
+        <form class="row">
+            <label class="col-3">Commune :</label>
+            <input type="email" class="form-control search-form col-5" [formControl]="searchForm.controls.township">
+            <button mat-raised-button class="btnSearch col-2" (click)="btnClick();">Go!</button>
+        </form>
+        
+    </div>
 
-<mat-card class="example-card">
-    <!-- <mat-form-field>
-        <mat-label>Commune :</mat-label>
-        <input [formControl]="searchForm.controls.township">
-    </mat-form-field> -->
-    <button class="btnSearch" (click)="btnClick();">Go!</button>
-    <google-map></google-map>
-</mat-card>
+    <div class="maps-container">
+        <google-map width="100%"></google-map>
+    </div>
+</ng-container>
+
+

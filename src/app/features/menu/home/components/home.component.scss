@@ -1,10 +1,18 @@
-.example-card {
+.home-card {
     max-width: 500px;
     margin: 0 auto;
     margin-top: 20px;
+    .search-form {
+        max-width: 250px;
+    }
+    .btnSearch {
+        background-color: #1d6475;
+        color : white;
+    }
 }
 
-.example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
+.maps-container {
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 20px;
 }
