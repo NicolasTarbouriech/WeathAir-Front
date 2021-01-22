@@ -1,0 +1,15 @@
+.meteo-card {
+    max-width: 300px;
+    margin: 0 auto;
+    margin-top: 80px;
+    .meteo-card-header{
+        text-align: center;
+        font-size: xx-large;
+    }
+    .meteo-card-content{
+        text-align: center;
+        h1{
+            font-size: xx-large;
+        }
+    }
+}
