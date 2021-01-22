@@ -53,17 +53,9 @@ export class LoginService {
    *
    */
   login(email: string, password: string): Observable<User> {
-    // return this.httpClient.post(`${environment.api.BASE_URL}api/login`,
-    //  new HttpParams().set('username', email).set('password', password));
-    
-    const config = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded'
-      })
-    };
-
+    let connect = { username : email, password : password};
     return this.httpClient.post(`${environment.api.BASE_URL}login`,
-      new HttpParams().set('username', email).set('password', password), config)
+      connect)
       .pipe(
         map(userServeur => new User(userServeur)),
         tap(col => this.userConnectedSub.next(col) )
