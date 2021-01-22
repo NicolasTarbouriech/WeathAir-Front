@@ -18,6 +18,16 @@ const routes: Routes = [
       import('./features/authentication/register/register.module').then(m => m.RegisterModule)
   },
   {
+    path: 'indicators',
+    loadChildren: () =>
+      import('./features/menu/indicator/indicator.module').then(m => m.IndicatorModule)
+  },
+  {
+    path: 'favorite',
+    loadChildren: () =>
+      import('./features/menu/favorite/favorite.module').then(m => m.FavoriteModule)
+  },
+  {
     path: 'home',
     loadChildren: () =>
       import('./features/menu/home/home.module').then(m => m.HomeModule)
