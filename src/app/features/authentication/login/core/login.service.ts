@@ -21,29 +21,7 @@ export class LoginService {
   constructor(private httpClient: HttpClient) {
    }
 
-   recupererRoleUtilisateur(user : User) : string {
-    let valuePrecedent: number = 0;
-    let valueActuelle = 0;
-    let roleFinal;
-    user.role.forEach(valeurRole => {
-      valueActuelle = +valeurRole;
-      if(valueActuelle > valuePrecedent) {
-        valuePrecedent = valueActuelle;
-      }
-      
-    switch ( valuePrecedent ){
-      case 2 :
-        roleFinal = "ROLE_ADMINISTRATOR";
-        break;
-
-      case 1 :
-        roleFinal = "ROLE_USER";
-        break;
-    }
-    });
   
-    return roleFinal;
-  }
 
 
   get collegueConnecteObs(): Observable<User> {
@@ -84,7 +62,7 @@ export class LoginService {
       })
     };
 
-    return this.httpClient.post('http://localhost:8080/login',
+    return this.httpClient.post(`${environment.api.BASE_URL}login`,
       new HttpParams().set('username', email).set('password', password), config)
       .pipe(
         map(userServeur => new User(userServeur)),
@@ -109,7 +87,7 @@ export class LoginService {
     localStorage.removeItem("idUser");
     localStorage.removeItem("roleUser");
 
-    return this.httpClient.post<User>(`${environment.api.BASE_URL}${environment.api.API_VERSION}`, null , config)
+    return this.httpClient.post<User>(`${environment.api.BASE_URL}`, null , config)
       .pipe(
         tap(col => this.userConnectedSub.next(USER_ANONYM))
       );

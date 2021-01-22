@@ -61,25 +61,15 @@ export class LoginComponent implements OnInit {
     // console.log(this.loginForm.controls.email.value, this.loginForm.controls.password.value)
   this.loginService.login(this.loginForm.controls.email.value,  this.loginForm.controls.password.value)
   .subscribe(
-
     // en cas de succès, redirection vers la page /d'acceuil
-   col => {
-
-      let roleUtilisateur = this.getRoles(col);
-
-      localStorage.setItem("idUtilisateur", col.id.toString());
-      localStorage.setItem("roleUtilisateur", roleUtilisateur);
-     
+   u => {
       this.router.navigate([`/home`]);
-         
   },
     // en cas d'erreur, affichage d'un message d'erreur
     err => this.err = true
   );
 }
 
-getRoles(user: User) : string {
-  return this.loginService.recupererRoleUtilisateur(user);
-}
+
 
 }
