@@ -1,13 +1,9 @@
-
 import { FormBuilder, Form, Validators, FormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { User } from '../core/login.model';
 import { Router } from '@angular/router';
-import { environment } from '../../../../../environments/environment';
 import { Title } from '@angular/platform-browser';
-import { LoginService } from '../core/login.service';
-
-
+import { LoginService } from '../core/login.service'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

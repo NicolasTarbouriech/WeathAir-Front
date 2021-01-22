@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { environment } from "src/environments/environment";
+import { RegisterService } from "../core/register.service";
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
@@ -17,17 +18,17 @@ export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     hasError = false;
     checked = false;
+    err: boolean;
     constructor(
         private router: Router,
         private formBuilder: FormBuilder,
         private titleService: Title,
+        private registerService: RegisterService
       ) {
       }
     ngOnInit() {
-        this.titleService.setTitle(`${environment.appName} | Login`)
-
         this.registerForm = this.formBuilder.group({
-          login: [
+          email: [
             '',
             Validators.compose([
               Validators.pattern(this.emailValidationRegEx),
@@ -35,26 +36,34 @@ export class RegisterComponent implements OnInit {
           ],
           password: ['', Validators.required],
           verify_password: ['', Validators.required],
-          commune :  ['', Validators.required],
+          township :  ['', Validators.required],
           pseudo :  ['', Validators.required]
         },
-       
         );
     }
 
     keyPress(event) {
         // On enter pressed
         if (event.keyCode === 13) {
-          this.onRegisterClick();
+          this.router.navigate(['/home'])
         }
       }
 
-    onRegisterClick() {
-        if (this.registerForm.valid) {
-          this.router.navigate(['/home', {}]);
-        } else {
-          this.registerForm.markAllAsTouched();
-        }
-      }
-
+      getRegister() {
+        // console.log(this.loginForm.controls.email.value, this.loginForm.controls.password.value)
+      this.registerService.register(
+        this.registerForm.controls.email.value,
+        this.registerForm.controls.password.value,
+        this.registerForm.controls.pseudo.value,
+        this.registerForm.controls.township.value
+        )
+      .subscribe(
+        // en cas de succès, redirection vers la page /d'acceuil
+       u => {
+          this.router.navigate([`/home`]);
+      },
+        // en cas d'erreur, affichage d'un message d'erreur
+        err => this.err = true
+      );
+    }
 }

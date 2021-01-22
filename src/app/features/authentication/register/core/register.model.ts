@@ -1,19 +1,14 @@
-export interface UserInfo {
-    email: string;
-    firstname: string;
-    lastname: string;
-    user_role: UserRole;
+export class User {
+  id?: number;
+  pseudo : string;
+  email: string;
+  password: string;
+  confirmPassword : string;
+  role?: string[];
+  township?: string[];
+
+  constructor(params: any) {
+    Object.assign(this, params);
   }
-  
-  export interface UserRole {
-    id: number;
-    label: string;
-    name: string;
-  }
-  
-  export interface RegisterToken {
-    token_type: string;
-    access_token: string;
-    expires_in: number;
-  }
+}
   

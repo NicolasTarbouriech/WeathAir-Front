@@ -1,11 +1,10 @@
-import { api } from '../../../../core/api/api.vars';
+
 import { environment } from '../../../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Observable, of,BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { share, map , tap, catchError,  } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {  map , tap, catchError,  } from 'rxjs/operators';
 import { User } from './login.model';
-import { Router } from '@angular/router';
 
 
 
@@ -15,14 +14,10 @@ const USER_ANONYM  = new User({});
   providedIn: 'root'
 })
 export class LoginService {
-
   private userConnectedSub: BehaviorSubject<User> = new BehaviorSubject(USER_ANONYM);
 
   constructor(private httpClient: HttpClient) {
    }
-
-  
-
 
   get collegueConnecteObs(): Observable<User> {
     return this.userConnectedSub.asObservable();
@@ -86,13 +81,13 @@ export class LoginService {
   }
 
 
-  isAuthenticated() {
+  // isAuthenticated() {
 
-    if ( localStorage.getItem("idUser") != null ){
-      return true;
-    } else {
-      return false
-    }
-    
-}
+  //   if ( localStorage.getItem("idUser") != null ){
+  //     return true;
+  //   } else {
+  //     return false
+  //   }
+  // }
+
 }
