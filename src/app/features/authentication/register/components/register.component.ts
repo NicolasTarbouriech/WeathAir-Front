@@ -2,8 +2,11 @@ import {Component, ChangeDetectionStrategy,  OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { RegisterService } from "../core/register.service";
+import { Township } from "../core/township.model";
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
@@ -19,6 +22,10 @@ export class RegisterComponent implements OnInit {
     hasError = false;
     checked = false;
     err: boolean;
+    filteredOptions: Observable<any[]>;
+    options : Township[] = [];
+  loader : boolean = false;
+
     constructor(
         private router: Router,
         private formBuilder: FormBuilder,
@@ -27,7 +34,10 @@ export class RegisterComponent implements OnInit {
       ) {
       }
     ngOnInit() {
+      
+        this.loadCities();
         this.registerForm = this.formBuilder.group({
+          pseudo :  ['', Validators.required],
           email: [
             '',
             Validators.compose([
@@ -36,11 +46,24 @@ export class RegisterComponent implements OnInit {
           ],
           password: ['', Validators.required],
           verify_password: ['', Validators.required],
-          township :  ['', Validators.required],
-          pseudo :  ['', Validators.required]
+          township : ['', Validators.required]
         },
+
         );
+        this.filteredOptions = this.registerForm.get('township').valueChanges
+      .pipe(
+        startWith(''),
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter(name) : this.options.slice())
+      );
     }
+
+   private _filter(name: string): any[] {
+    const filterValue = name.toLowerCase();
+    return this.options.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0)
+    .slice(0, 5);
+  }
+
 
     keyPress(event) {
         // On enter pressed
@@ -50,20 +73,49 @@ export class RegisterComponent implements OnInit {
       }
 
       getRegister() {
-        // console.log(this.loginForm.controls.email.value, this.loginForm.controls.password.value)
+        const selectedTown = this.registerForm.controls.township.value;
+        if(!selectedTown) {
+          return;
+        }
+        console.log('Select your city');
+
+    
+
       this.registerService.register(
+        
+        this.registerForm.controls.pseudo.value,
         this.registerForm.controls.email.value,
         this.registerForm.controls.password.value,
-        this.registerForm.controls.pseudo.value,
-        this.registerForm.controls.township.value
+        selectedTown,
         )
       .subscribe(
         // en cas de succès, redirection vers la page /d'acceuil
        u => {
           this.router.navigate([`/home`]);
+          console.log(this.registerForm.value)
       },
         // en cas d'erreur, affichage d'un message d'erreur
         err => this.err = true
+        
       );
     }
+
+    displayFn(township: any): string {
+      return township && township.name ? township.name : '';
+    }
+
+    loadCities() {
+      this.loader = true;
+      return this.registerService.getTownships().subscribe( 
+        result => {
+          this.options = result;
+          console.log(result);
+          this.loader= false;
+        }, err => {
+          this.loader = false;
+          console.log(err);
+        }
+      )
+      }
+    
 }

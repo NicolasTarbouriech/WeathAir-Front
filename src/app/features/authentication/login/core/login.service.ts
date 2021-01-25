@@ -57,30 +57,6 @@ export class LoginService {
       );
   }
 
-  /**
-   * Déconnexion de l'utilisateur.
-   *
-   * Le serveur provoque la suppression du cookie AUTH-TOKEN.
-   *
-   */
-  seDeconnecter() {
-
-    const config = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded'
-      })
-    };
-
-    localStorage.removeItem("idUser");
-    localStorage.removeItem("roleUser");
-
-    return this.httpClient.post<User>(`${environment.api.BASE_URL}`, null , config)
-      .pipe(
-        tap(col => this.userConnectedSub.next(USER_ANONYM))
-      );
-  }
-
-
   // isAuthenticated() {
 
   //   if ( localStorage.getItem("idUser") != null ){
