@@ -2,18 +2,24 @@
     max-width: 500px;
     margin: 0 auto;
     margin-top: 20px;
-    .search-form {
-        max-width: 250px;
-        margin-right: 10px;
-    }
-    .btnSearch {
-        background-color: #1d6475;
-        color : white;
+    .form-container{
+        display: flex;
+        justify-content: space-around;
+        .search-form {
+            max-width: 120px;
+            min-width: 100px;
+            margin-right: 10px;
+        }
+        .btnSearch {
+            background-color: #1d6475;
+            color : white;
+        }
     }
 }
 
 .maps-container {
     max-width: 900px;
+    min-width: 220px;
     margin: 0 auto;
     margin-top: 20px;
 }

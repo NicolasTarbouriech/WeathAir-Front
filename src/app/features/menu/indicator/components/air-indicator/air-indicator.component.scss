@@ -2,13 +2,72 @@
     max-width: 300px;
     margin: 0 auto;
     margin-top: 80px;
-    .air-card-header{
-        text-align: center;
-        font-size: xx-large;
+    mat-card-header{
+        justify-content: center;
+        .air-card-header{
+            font-size: xx-large;
+        }
     }
     .air-card-content{
+        min-width: 220px;
+        margin: 10px;
         .row {
-            margin: 7px;
+            margin-top: 15px;
+            .indic-1{
+                background-color: #00ccff;
+                border-radius: 20%;
+                font-weight:bold;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                color: white;
+            }
+            .indic-2{
+                background-color: #00cc99;
+                border-radius: 20%;
+                font-weight:bold;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                color: white;
+
+            }
+            .indic-3{
+                background-color: #FFE143;
+                border-radius: 20%;
+                font-weight:bold;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                color: white;
+            }
+            .indic-4{
+                background-color: #ff6600;
+                border-radius: 20%;
+                font-weight:bold;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                color: white;
+            }
+            .indic-5{
+                background-color: #cc0000;
+                border-radius: 20%;
+                font-weight:bold;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                color: white;
+            }
+            .indic-6{
+                background-color: #862d86;
+                border-radius: 20%;
+                font-weight:bold;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                color: white;
+            }
         }
     }
 }

@@ -1,4 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { ActivatedRoute, Route } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { HomeStorageService } from '../../home/core/home-storage.service';
 
 @Component({
   selector: 'app-indicator',
@@ -7,10 +10,23 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class IndicatorComponent implements OnInit, OnDestroy {
 
-  constructor( ) {
+  township: string;
+
+  constructor(private homeStorageService: HomeStorageService, private route: ActivatedRoute) {
   }
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.township = this.route.snapshot.paramMap.get('township');
+    this.homeStorageService.getTownshipStream().pipe(filter(elem => {
+      return !!elem;
+    })).subscribe(
+      res => {
+        this.township = res;
+      }, 
+      err => {
+        console.log(err);
+      });
+  }
 
   ngOnDestroy(): void {}
   

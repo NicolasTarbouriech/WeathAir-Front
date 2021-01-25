@@ -7,6 +7,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { IndicatorRoutingModule } from "./indicator-routing.module";
 import { HomeModule } from "../home/home.module";
 import { GoogleMapsModule } from "@angular/google-maps";
+import { HomeStorageService } from "../home/core/home-storage.service";
 
 @NgModule({
     declarations: [
@@ -20,6 +21,7 @@ import { GoogleMapsModule } from "@angular/google-maps";
         IndicatorRoutingModule, 
         SharedModule, 
         HomeModule
-    ]
+    ], 
+    providers: [HomeStorageService]
   })
   export class IndicatorModule { }
