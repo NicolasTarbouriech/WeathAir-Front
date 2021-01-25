@@ -2,9 +2,14 @@
   
     <mat-card class="auth-card">
         <mat-card-content>
-            <form class="my-form">
-                <p *ngIf="loader">Chargement en cour</p>
-                <h1 class="title">S'inscrire</h1>
+            <form class="my-form" style="text-align: center">
+                <!-- <p *ngIf="loader">Chargement des villes ...</p> -->
+                <div *ngIf="contentLoading" class="spinner-border"  >
+                   <span class="sr-only">Chargement en cours ...</span>
+                </div>
+
+                <div class="notLoading" [hidden]="contentLoading">
+                <h1 class="title" >S'inscrire</h1>
 
                <div class="row">
                 <mat-form-field class="full-width">
@@ -30,9 +35,8 @@
             </div>
 
             <div class="row">
-            <form class="example-form">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Assignee</mat-label>
+                <mat-form-field class="full-width">
+                  <mat-label class="require">Commune</mat-label>
                   <input type="text" matInput [formControl]="registerForm.controls.township" [matAutocomplete]="auto">
                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                     <mat-option *ngFor="let township of filteredOptions | async" [value]="township">
@@ -40,7 +44,6 @@
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
-              </form>
             </div>
 
             <div class="row">
@@ -65,19 +68,19 @@
             </div> 
      
                <div class="error" *ngIf="hasError">Identifiant ou mot de passe incorrecte</div>
-
+            </div>
             </form>
         </mat-card-content>
    
-        <a [routerLink]="'/cgu'" class="cgu">Conditions générales d'utilisation</a>
+        <a [routerLink]="'/cgu'" class="cgu" [hidden]="contentLoading">Conditions générales d'utilisation</a>
  
-        <mat-radio-button class="radio-button" value="after">J'ai lu et j'accepte les conditions générales d'utilisation</mat-radio-button>
+        <mat-radio-button class="radio-button" value="after" [hidden]="contentLoading" >J'ai lu et j'accepte les conditions générales d'utilisation</mat-radio-button>
     
         <mat-card-actions>
             <button class="btn" mat-raised-button (click)="getRegister()" >S'inscrire</button>
         </mat-card-actions>
         <div class="registerLink">
-       
+      
     </div>
     </mat-card>
 </div>

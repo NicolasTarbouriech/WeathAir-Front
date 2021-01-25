@@ -47,23 +47,35 @@ export class LoginService {
    * Le serveur provoque la création du cookie AUTH-TOKEN.
    *
    */
-  login(email: string, password: string): Observable<User> {
+  login(email: string, password: string): Observable<any> {
     let connect = { username : email, password : password};
+  
+
     return this.httpClient.post(`${environment.api.BASE_URL}login`,
-      connect)
+      connect, { observe : 'response'} )
       .pipe(
-        map(userServeur => new User(userServeur)),
-        tap(col => this.userConnectedSub.next(col) )
-      );
+        tap(resultat => {console.log(resultat.headers.get('Authorization'))}))
+    //    map(userServeur => new User(userServeur)),
+    //   tap(col => this.userConnectedSub.next(col) )
+ //    );
   }
 
-  // isAuthenticated() {
-
-  //   if ( localStorage.getItem("idUser") != null ){
-  //     return true;
-  //   } else {
-  //     return false
-  //   }
-  // }
+  logof() {
+    const config = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    };
+  
+    localStorage.removeItem("idUtilisateur");
+    localStorage.removeItem("roleUtilisateur");
+  
+    return this.httpClient.post<User>(`${environment.api.BASE_URL}login`, config)
+      .pipe(
+        tap(col => this.userConnectedSub.next(USER_ANONYM))
+      );
+  }
+  
+  
 
 }

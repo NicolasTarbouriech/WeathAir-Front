@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy,  OnInit } from "@angular/core";
+import {Component, ChangeDetectionStrategy,  OnInit, ChangeDetectorRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
@@ -24,13 +24,15 @@ export class RegisterComponent implements OnInit {
     err: boolean;
     filteredOptions: Observable<any[]>;
     options : Township[] = [];
-  loader : boolean = false;
+  
+    contentLoading : boolean = true;
 
     constructor(
         private router: Router,
         private formBuilder: FormBuilder,
         private titleService: Title,
-        private registerService: RegisterService
+        private registerService: RegisterService,
+        private changeDetectorRef: ChangeDetectorRef
       ) {
       }
     ngOnInit() {
@@ -77,12 +79,7 @@ export class RegisterComponent implements OnInit {
         if(!selectedTown) {
           return;
         }
-        console.log('Select your city');
-
-    
-
       this.registerService.register(
-        
         this.registerForm.controls.pseudo.value,
         this.registerForm.controls.email.value,
         this.registerForm.controls.password.value,
@@ -91,7 +88,7 @@ export class RegisterComponent implements OnInit {
       .subscribe(
         // en cas de succès, redirection vers la page /d'acceuil
        u => {
-          this.router.navigate([`/home`]);
+          this.router.navigate([`/login`]);
           console.log(this.registerForm.value)
       },
         // en cas d'erreur, affichage d'un message d'erreur
@@ -105,17 +102,20 @@ export class RegisterComponent implements OnInit {
     }
 
     loadCities() {
-      this.loader = true;
+      
       return this.registerService.getTownships().subscribe( 
         result => {
           this.options = result;
           console.log(result);
-          this.loader= false;
+          this.contentLoading= false;
+          this.changeDetectorRef.detectChanges();
         }, err => {
-          this.loader = false;
+          this.contentLoading = false;
+          this.changeDetectorRef.detectChanges();
           console.log(err);
         }
       )
       }
+
     
 }

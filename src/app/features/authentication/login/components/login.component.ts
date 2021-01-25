@@ -4,6 +4,8 @@ import { User } from '../core/login.model';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { LoginService } from '../core/login.service'
+import { HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -44,6 +46,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     }
     );
+    
   }
 
   keyPress(event) {
@@ -69,3 +72,6 @@ export class LoginComponent implements OnInit {
 
 
 }
+
+
+
