@@ -35,6 +35,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AddIndicatorComponent } from '../features/modals/add-indicator/add-indicator.component';
 
 @NgModule({
   imports: [
@@ -64,11 +65,12 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatExpansionModule,
     MatDialogModule,
     MatProgressBarModule,
-    MatRadioModule
+    MatRadioModule, 
+    MatDialogModule
   ],
   declarations: [
   ],
-  entryComponents: [],
+  entryComponents: [AddIndicatorComponent],
   exports: [
     CommonModule,
     FormsModule,
@@ -99,7 +101,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatTableModule,
     MatExpansionModule,
     MatDialogModule,
-    MatRadioModule
+    MatRadioModule,
+    MatDialogModule
   ]
 })
 export class SharedModule {}

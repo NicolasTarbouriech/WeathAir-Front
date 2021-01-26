@@ -1,70 +1,97 @@
-import { api } from '../../../../core/api/api.vars';
+
 import { environment } from '../../../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import {
-  LoginRequest,
- LoginToken,
-  UserInfo,
-} from './login.model';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { share } from 'rxjs/operators';
+import { Observable, of,BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {  map , tap, catchError, mapTo,  } from 'rxjs/operators';
+import { User } from './login.model';
+import { Tokens } from './tokens.models';
+
+
+const USER_ANONYM  = new User({});
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  constructor(private httpClient: HttpClient) { }
+export class LoginService {
+  private userConnectedSub: BehaviorSubject<User> = new BehaviorSubject(USER_ANONYM);
+  private readonly JWT_TOKEN = 'JWT_TOKEN';
+  private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
+  private loggedUser: string;
 
-  retrieveAuthToken(
-    request: LoginRequest,
-  ): Observable<LoginToken> {
-    const body = new HttpParams()
-      .set('password', request.password)
-      .set('email', request.username);
+  constructor(private httpClient: HttpClient) {
+   }
 
-    return this.httpClient.post<LoginToken>(
-      `${environment.api.BASE_URL}${environment.api.API_VERSION}${api.endpoints.auth.LOGIN}`,
-      body.toString(),
-      {
-        headers: new HttpHeaders()
-          .set('Content-Type', 'application/x-www-form-urlencoded')
-      }
-    );
+
+  
+
+
+  get connectedUserObs(): Observable<User> {
+    return this.userConnectedSub.asObservable();
   }
 
-
-  retrieveUserData(token : LoginToken): Observable<UserInfo> {
-    return this.httpClient
-      .get<UserInfo>(
-        `${environment.api.BASE_URL}${environment.api.API_VERSION}${api.endpoints.auth.ME}`,
-        {
-          headers: new HttpHeaders()
-            .set('Authorization', `Bearer ${token.access_token}`)
-        }
-      )
-      .pipe(share());
+  /**
+   * Service permettant de vérifier si un collegue est authentifié.
+   *
+   * Une requête HTTP est déclenchée pour récupérer le collègue connecté s'il n'est pas en cache.
+   *
+   */
+  checkAuthentication(): Observable<User> {
+    return this.userConnectedSub.getValue().notConnected() ?
+            this.httpClient.get<User>(`${environment.api.BASE_URL}
+            `, {withCredentials: true})
+                  .pipe(
+                    
+                    map(utilisateurServeur => new User(utilisateurServeur)),
+                    tap(u => this.userConnectedSub.next(u)),
+                    catchError(err => of(USER_ANONYM))
+                  ) :     of(this.userConnectedSub.getValue());
   }
 
-  // seConnecter(email: string, mdp: string): Observable<UserInfo> {
-
-  //   const config = {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/x-www-form-urlencoded'
-  //     })
-  //   };
-
-  //   return this.httpClient.post(`${environment.api.BASE_URL}${environment.api.API_VERSION}`,
-  //     new HttpParams().set('username', email).set('password', mdp), config)
-  //     .pipe(
-  //       map(colServeur => new UserInfo(colServeur)),
-  //       tap(col => this.collegueConnecteSub.next(col) )
-  //     );
-  // }
-
-
-
-  logout(): Observable<any> {
-    return of(null);
+  /**
+   * Connexion de l'utilisateur.
+   *
+   * Le serveur provoque la création du cookie AUTH-TOKEN.
+   *
+   */
+  login(email: string, password: string): Observable<any> {
+    let connect = { username : email, password : password};
+  
+    return this.httpClient.post(`${environment.api.BASE_URL}login`, connect)
+      .pipe(
+        map(userServeur => new User(userServeur)),
+        tap(col => this.userConnectedSub.next(col))
+      );
   }
+
+  getMe() :Observable<Object> {
+    return this.httpClient.get(`${environment.api.BASE_URL}users/me`)
+  }
+
+  /**
+   * Déconnexion de l'utilisateur.
+   *
+   * Le serveur provoque la suppression du cookie AUTH-TOKEN.
+   *
+   */
+  seDeconnecter() {
+
+    const config = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    };
+
+    localStorage.removeItem("idUser");
+    localStorage.removeItem("roleUser");
+
+    return this.httpClient.post<User>(`${environment.api.BASE_URL}`, null , config)
+      .pipe(
+        tap(col => this.userConnectedSub.next(USER_ANONYM))
+      );
+
+  }
+  
+  
 }
+

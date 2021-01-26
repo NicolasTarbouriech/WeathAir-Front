@@ -126,5 +126,8 @@
       }
     }
   },
-  "defaultProject": "auth-app"
+  "defaultProject": "auth-app",
+  "cli": {
+    "analytics": false
+  }
 }

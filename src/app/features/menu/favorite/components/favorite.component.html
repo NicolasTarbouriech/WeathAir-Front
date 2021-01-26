@@ -1,2 +1,15 @@
+<h1 class="title">Mes indicateurs</h1>
 
-coucou le fav
+<div *ngIf="myIndicators.length<1" class="containerNoIndicators">
+    <div class="noIndicatorsText">
+        <h1 class="t1">Vous n'avez pas encore d'indicateurs personnalisés ..</h1>
+        <h1 class="t2">Ajoutez-en !</h1>
+    </div>
+    <div class="arrowImg">
+        <img src="assets/icons/arrow.png" alt="arrow icon">
+    </div>
+</div>
+
+<div class="btnAddIndicator" (click)="openDialog()">
+    <img src="assets/icons/add.png" alt="add icon">
+</div>
