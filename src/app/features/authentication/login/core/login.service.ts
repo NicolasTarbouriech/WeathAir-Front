@@ -24,7 +24,7 @@ export class LoginService {
   
 
 
-  get collegueConnecteObs(): Observable<User> {
+  get connectedUserObs(): Observable<User> {
     return this.userConnectedSub.asObservable();
   }
 
@@ -58,8 +58,12 @@ export class LoginService {
       connect)
       .pipe(
         map(userServeur => new User(userServeur)),
-        tap(col => this.userConnectedSub.next(col) )
+        tap(col => this.userConnectedSub.next(col))
       );
+  }
+
+  getMe() :Observable<Object> {
+    return this.httpClient.get(`${environment.api.BASE_URL}users/me`)
   }
 
   /**
