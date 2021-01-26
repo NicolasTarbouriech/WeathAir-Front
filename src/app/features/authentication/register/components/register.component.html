@@ -36,8 +36,6 @@
                     </mat-form-field>
                 </div>
 
-        
-
             <div class="row">
                 <mat-form-field class="full-width">
                   <mat-label class="require">Commune</mat-label>
@@ -67,8 +65,8 @@
                     <mat-error *ngIf="registerForm.controls.verify_password.hasError('required')">
                         Ce champs est obligatoire
                     </mat-error>
-                    <mat-error *ngIf="registerForm.controls.verify_password.confirmedValidator">
-                       Password & confirm password doivent être identique
+                    <mat-error *ngIf="confirmationHasError">
+                      Le mot de passe & la confirmation du mot de passe doivent être identiques 
                     </mat-error>
                 </mat-form-field>
             </div> 
