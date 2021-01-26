@@ -1,0 +1,27 @@
+.validateBtn { 
+    background-color: #92d36e;
+    color: white;
+}
+
+.meteoOrAir {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.row {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.radioGroup{
+    display: flex;
+    justify-content: space-around;
+}
+
+.full-width {
+    width: 100%;
+}

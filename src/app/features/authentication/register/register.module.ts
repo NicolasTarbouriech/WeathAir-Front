@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from './components/register.component';
 import { RegisterRoutingModule } from './register-routing.module';
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -12,7 +12,8 @@ import { RegisterRoutingModule } from './register-routing.module';
   imports: [
     CommonModule,
     RegisterRoutingModule,
-    SharedModule
+    SharedModule,
+    MatAutocompleteModule
   ]
 })
 export class RegisterModule { }

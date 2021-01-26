@@ -1,27 +1,17 @@
 
-
-export interface LoginRequest {
-  username: string;
-  password: string;
-}
-
-export interface UserInfo {
+export class User{
+  id?: number;
+  pseudo? : string;
   email: string;
-  firstname: string;
-  lastname: string;
-  user_role: UserRole;
+  password: string;
+  role?: string[];
+  township? : string[];
+
+  constructor(params: any) {
+    Object.assign(this, params);
+  }
+
+  notConnected(): boolean {
+    return this.email === undefined;
+  }
 }
-
-export interface UserRole {
-  id: number;
-  label: string;
-  name: string;
-}
-
-export interface LoginToken {
-  token_type: string;
-  access_token: string;
-  expires_in: number;
-}
-
-
