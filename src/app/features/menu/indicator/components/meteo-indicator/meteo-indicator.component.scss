@@ -2,12 +2,15 @@
     max-width: 300px;
     margin: 0 auto;
     margin-top: 80px;
-    .meteo-card-header{
-        text-align: center;
-        font-size: xx-large;
+    mat-card-header{
+        justify-content: center;
+        .meteo-card-header{
+            font-size: xx-large;
+        }
     }
     .meteo-card-content{
         text-align: center;
+        min-width: 220px;
         h1{
             font-size: xx-large;
         }

@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { IndicatorService } from '../../core/indicator-service';
 
 @Component({
   selector: 'app-air-indicator',
@@ -7,10 +8,23 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class AirIndicatorComponent implements OnInit, OnDestroy {
 
-  constructor( ) {
+  @Input()
+  township: string;
+  aqi : number;
+
+  constructor(private indicatorService: IndicatorService) {
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.indicatorService.retrieveLatestAirIndicator(this.township).subscribe(
+      res => {
+        this.aqi = res[0].aqi;
+      }, 
+      err => {
+        console.log(err)
+      }
+    );
+  }
 
   ngOnDestroy(): void {}
   

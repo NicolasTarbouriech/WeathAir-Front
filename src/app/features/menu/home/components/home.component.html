@@ -1,9 +1,13 @@
 <ng-container>
+
+    <div class="alert alert-danger" role="alert" *ngIf="errorInForm">
+        Veuillez entrer le nom de votre commune
+    </div>
     <div class="home-card">
-        <form class="row">
-            <label class="col-3">Commune :</label>
-            <input type="email" class="form-control search-form col-5" [formControl]="searchForm.controls.township">
-            <button mat-raised-button class="btnSearch col-2" (click)="btnClick();">Go!</button>
+        <form class="form-container">
+            <label>Commune :</label>
+            <input type="email" class="form-control search-form" [formControl]="searchForm.controls.township">
+            <button mat-raised-button type="button" class="btnSearch" (click)="btnClick();">Go!</button>
         </form>
         
     </div>
@@ -12,5 +16,3 @@
         <google-map width="100%"></google-map>
     </div>
 </ng-container>
-
-
