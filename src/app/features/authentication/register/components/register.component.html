@@ -1,5 +1,5 @@
 <div class="login-page">
-  
+
     <mat-card class="auth-card">
         <mat-card-content>
             <form class="my-form" style="text-align: center">
@@ -11,15 +11,41 @@
                 <div class="notLoading" [hidden]="contentLoading">
                 <h1 class="title" >S'inscrire</h1>
 
-               <div class="row">
-                <mat-form-field class="full-width">
-                    <mat-label class="require">Pseudo </mat-label>
-                    <input [formControl]="registerForm.controls.pseudo" matInput placeholder="Pseudo" autocomplete="off">
-                    <mat-error *ngIf="registerForm.controls.pseudo.hasError('required')">
-                        Ce champs est obligatoire
-                    </mat-error>
-                </mat-form-field>
-            </div>
+                <div class="row">
+                    <mat-form-field class="full-width">
+                        <mat-label class="require">Pseudo </mat-label>
+                        <input [formControl]="registerForm.controls.pseudo" matInput placeholder="Pseudo"
+                            autocomplete="off">
+                        <mat-error *ngIf="registerForm.controls.pseudo.hasError('required')">
+                            Ce champs est obligatoire
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field class="full-width">
+                        <mat-label class="require">Email </mat-label>
+                        <input [formControl]="registerForm.controls.login" matInput placeholder="Identifiant"
+                            autocomplete="off">
+                        <mat-error *ngIf="registerForm.controls.login.hasError('pattern')">
+                            Format d'email incorrect
+                        </mat-error>
+                        <mat-error *ngIf="registerForm.controls.login.hasError('required')">
+                            Ce champs est obligatoire
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field class="full-width">
+                        <mat-label class="require">Commune </mat-label>
+                        <input (keypress)="keyPress($event)" [formControl]="registerForm.controls.commune"
+                            type="commune" matInput placeholder="Commune">
+                        <mat-error *ngIf="registerForm.controls.commune.hasError('required')">
+                            Ce champs est obligatoire
+                        </mat-error>
+                    </mat-form-field>
+                </div>
 
                 <div class="row">
                 <mat-form-field class="full-width">
