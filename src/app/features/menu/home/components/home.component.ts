@@ -13,6 +13,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   searchForm : FormGroup;
   errorInForm : boolean;
+  center = {
+    lat : parseFloat("43.61"),
+    lng : parseFloat("3.88")
+  }
 
   constructor(private formBuilder: FormBuilder, private router: Router, private homeStorageService: HomeStorageService) {
     
