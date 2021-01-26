@@ -11,11 +11,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './features/menu/home/components/home.component';
 import { HomeModule } from './features/menu/home/home.module';
+import { AddIndicatorComponent } from './features/modals/add-indicator/add-indicator.component';
 
 @NgModule({
   declarations: [
     AppComponent, 
-    MenuComponent
+    MenuComponent, 
+    AddIndicatorComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,46 @@
+.title {
+    font-size: 50px;
+    text-align: center;
+    letter-spacing: 3px;
+    margin-top: 30px;
+}
+
+.containerNoIndicators {
+    margin-top: 75px;
+    text-align: center;
+    min-height: 70vh;
+}
+
+.noIndicatorsText {
+    h1 {
+        font-size: 40px;
+        color: #CCCCCC;
+    }
+
+    .t2{
+        font-size: 30px;
+    }
+}
+
+.arrowImg {
+    transform: rotate(270deg) scaleX(-1);
+    width: 400px;
+    height: 400px;
+    margin-left: 50%;
+}
+
+.arrowImg img {
+    width: 400px;
+    height: 400px;
+    filter: opacity(0.3);
+}
+
+.btnAddIndicator img{
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
