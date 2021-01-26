@@ -12,12 +12,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './features/menu/home/components/home.component';
 import { HomeModule } from './features/menu/home/home.module';
 import { AddIndicatorComponent } from './features/modals/add-indicator/add-indicator.component';
+import { CguComponent } from './features/authentication/cgu/cgu/cgu.component';
 
 @NgModule({
   declarations: [
     AppComponent, 
     MenuComponent, 
-    AddIndicatorComponent
+    AddIndicatorComponent, CguComponent
   ],
   imports: [
     BrowserModule,
