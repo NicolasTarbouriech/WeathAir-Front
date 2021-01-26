@@ -3,7 +3,7 @@ export class User {
   pseudo : string;
   email: string;
   password: string;
-  confirmPassword : string;
+  confirmPassword? : string;
   role?: string[];
   township?: string[];
 

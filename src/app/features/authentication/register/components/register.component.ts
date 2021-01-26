@@ -102,7 +102,6 @@ export class RegisterComponent implements OnInit {
     }
 
     loadCities() {
-      
       return this.registerService.getTownships().subscribe( 
         result => {
           this.options = result;

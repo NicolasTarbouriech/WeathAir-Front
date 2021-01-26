@@ -3,9 +3,9 @@ import { environment } from '../../../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Observable, of,BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {  map , tap, catchError,  } from 'rxjs/operators';
+import {  map , tap, catchError, mapTo,  } from 'rxjs/operators';
 import { User } from './login.model';
-
+import { Tokens } from './tokens.models';
 
 
 const USER_ANONYM  = new User({});
@@ -15,6 +15,9 @@ const USER_ANONYM  = new User({});
 })
 export class LoginService {
   private userConnectedSub: BehaviorSubject<User> = new BehaviorSubject(USER_ANONYM);
+  private readonly JWT_TOKEN = 'JWT_TOKEN';
+  private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
+  private loggedUser: string;
 
   constructor(private httpClient: HttpClient) {
    }
@@ -50,32 +53,13 @@ export class LoginService {
   login(email: string, password: string): Observable<any> {
     let connect = { username : email, password : password};
   
-
     return this.httpClient.post(`${environment.api.BASE_URL}login`,
-      connect, { observe : 'response'} )
-      .pipe(
-        tap(resultat => {console.log(resultat.headers.get('Authorization'))}))
-    //    map(userServeur => new User(userServeur)),
-    //   tap(col => this.userConnectedSub.next(col) )
- //    );
+      connect )
+      .pipe(tap( resultat => {console.log(resultat.headers.get('Authorization'))}))
   }
 
-  logof() {
-    const config = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded'
-      })
-    };
-  
-    localStorage.removeItem("idUtilisateur");
-    localStorage.removeItem("roleUtilisateur");
-  
-    return this.httpClient.post<User>(`${environment.api.BASE_URL}login`, config)
-      .pipe(
-        tap(col => this.userConnectedSub.next(USER_ANONYM))
-      );
   }
   
   
 
-}
+
