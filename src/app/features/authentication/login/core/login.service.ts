@@ -1,12 +1,11 @@
-import { api } from '../../../../core/api/api.vars';
+
 import { environment } from '../../../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Observable, of,BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { share, map , tap, catchError,  } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {  map , tap, catchError, mapTo,  } from 'rxjs/operators';
 import { User } from './login.model';
-import { Router } from '@angular/router';
-
+import { Tokens } from './tokens.models';
 
 
 const USER_ANONYM  = new User({});
@@ -15,11 +14,14 @@ const USER_ANONYM  = new User({});
   providedIn: 'root'
 })
 export class LoginService {
-
   private userConnectedSub: BehaviorSubject<User> = new BehaviorSubject(USER_ANONYM);
+  private readonly JWT_TOKEN = 'JWT_TOKEN';
+  private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
+  private loggedUser: string;
 
   constructor(private httpClient: HttpClient) {
    }
+
 
   
 
@@ -52,10 +54,10 @@ export class LoginService {
    * Le serveur provoque la création du cookie AUTH-TOKEN.
    *
    */
-  login(email: string, password: string): Observable<User> {
+  login(email: string, password: string): Observable<any> {
     let connect = { username : email, password : password};
-    return this.httpClient.post(`${environment.api.BASE_URL}login`,
-      connect)
+  
+    return this.httpClient.post(`${environment.api.BASE_URL}login`, connect)
       .pipe(
         map(userServeur => new User(userServeur)),
         tap(col => this.userConnectedSub.next(col))
@@ -87,16 +89,9 @@ export class LoginService {
       .pipe(
         tap(col => this.userConnectedSub.next(USER_ANONYM))
       );
+
   }
+  
+  
 
 
-  isAuthenticated() {
-
-    if ( localStorage.getItem("idUser") != null ){
-      return true;
-    } else {
-      return false
-    }
-    
-}
-}

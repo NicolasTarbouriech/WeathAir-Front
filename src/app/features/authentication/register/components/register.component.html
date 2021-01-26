@@ -2,8 +2,14 @@
 
     <mat-card class="auth-card">
         <mat-card-content>
-            <form class="my-form">
-                <h1 class="title">S'inscrire</h1>
+            <form class="my-form" style="text-align: center">
+                <!-- <p *ngIf="loader">Chargement des villes ...</p> -->
+                <div *ngIf="contentLoading" class="spinner-border"  >
+                   <span class="sr-only">Chargement en cours ...</span>
+                </div>
+
+                <div class="notLoading" [hidden]="contentLoading">
+                <h1 class="title" >S'inscrire</h1>
 
                 <div class="row">
                     <mat-form-field class="full-width">
@@ -42,44 +48,65 @@
                 </div>
 
                 <div class="row">
-                    <mat-form-field class="full-width">
-                        <mat-label class="require">Mot de passe </mat-label>
-                        <input (keypress)="keyPress($event)" [formControl]="registerForm.controls.password"
-                            type="password" matInput placeholder="Mot de passe">
-                        <mat-error *ngIf="registerForm.controls.password.hasError('required')">
-                            Ce champs est obligatoire
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+                <mat-form-field class="full-width">
+                    <mat-label class="require">Email </mat-label>
+                    <input [formControl]="registerForm.controls.email" matInput placeholder="Identifiant" autocomplete="off">
+                    <mat-error *ngIf="registerForm.controls.email.hasError('pattern')">
+                        Format d'email incorrect
+                    </mat-error>
+                    <mat-error *ngIf="registerForm.controls.email.hasError('required')">
+                        Ce champs est obligatoire
+                    </mat-error>
+                </mat-form-field>
+            </div>
 
-                <div class="row">
-                    <mat-form-field class="full-width">
-                        <mat-label class="require">Vérification du mot de passe</mat-label>
-                        <input (keypress)="keyPress($event)" [formControl]="registerForm.controls.verify_password"
-                            type="password" matInput placeholder="Mot de passe">
-                        <mat-error *ngIf="registerForm.controls.verify_password.hasError('required')">
-                            Ce champs est obligatoire
-                        </mat-error>
-                        <mat-error *ngIf="registerForm.controls.verify_password.errors.mustMatch">Passwords must match
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+            <div class="row">
+                <mat-form-field class="full-width">
+                  <mat-label class="require">Commune</mat-label>
+                  <input type="text" matInput [formControl]="registerForm.controls.township" [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let township of filteredOptions | async" [value]="township">
+                      {{township.name}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+            </div>
 
-                <div class="error" *ngIf="hasError">Identifiant ou mot de passe incorrecte</div>
-
+            <div class="row">
+                <mat-form-field class="full-width">
+                    <mat-label class="require">Mot de passe </mat-label>
+                    <input (keypress)="keyPress($event)" [formControl]="registerForm.controls.password" type="password" matInput placeholder="Mot de passe">
+                    <mat-error *ngIf="registerForm.controls.password.hasError('required')">
+                        Ce champs est obligatoire
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            
+            <div class="row">
+                <mat-form-field class="full-width">
+                    <mat-label class="require">Vérification du mot de passe</mat-label>
+                    <input (keypress)="keyPress($event)" [formControl]="registerForm.controls.verify_password" type="password" matInput placeholder="Mot de passe">
+                    <mat-error *ngIf="registerForm.controls.verify_password.hasError('required')">
+                        Ce champs est obligatoire
+                    </mat-error>
+                  
+                </mat-form-field>
+            </div> 
+     
+               <div class="error" *ngIf="hasError">Identifiant ou mot de passe incorrecte</div>
+            </div>
             </form>
         </mat-card-content>
-
-        <a [routerLink]="'/cgu'" class="cgu">Conditions générales d'utilisation</a>
-
-        <mat-radio-button class="radio-button" value="after">J'ai lu et j'accepte les conditions générales d'utilisation
-        </mat-radio-button>
-
+   
+        <a [routerLink]="'/cgu'" class="cgu" [hidden]="contentLoading">Conditions générales d'utilisation</a>
+ 
+        <mat-radio-button class="radio-button" value="after" [hidden]="contentLoading" >J'ai lu et j'accepte les conditions générales d'utilisation</mat-radio-button>
+    
         <mat-card-actions>
-            <button class="btn" mat-raised-button (click)="onRegisterClick()">S'inscrire</button>
+            <button class="btn" mat-raised-button (click)="getRegister()" >S'inscrire</button>
         </mat-card-actions>
         <div class="registerLink">
-
-        </div>
+      
+    </div>
     </mat-card>
 </div>
