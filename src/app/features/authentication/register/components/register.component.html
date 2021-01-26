@@ -67,7 +67,9 @@
                     <mat-error *ngIf="registerForm.controls.verify_password.hasError('required')">
                         Ce champs est obligatoire
                     </mat-error>
-                  
+                    <mat-error *ngIf="registerForm.controls.verify_password.confirmedValidator">
+                       Password & confirm password doivent être identique
+                    </mat-error>
                 </mat-form-field>
             </div> 
      

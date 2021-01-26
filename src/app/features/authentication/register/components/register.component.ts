@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { environment } from "src/environments/environment";
+import { ConfirmedValidator } from "../core/confirmed.validator";
 import { RegisterService } from "../core/register.service";
 import { Township } from "../core/township.model";
 @Component({
@@ -18,7 +19,8 @@ import { Township } from "../core/township.model";
 export class RegisterComponent implements OnInit {
 
     emailValidationRegEx = '^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*([-]{1})?@[a-z0-9]+([\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$';
-    registerForm: FormGroup;
+    // registerForm: FormGroup;
+    registerForm : FormGroup = new FormGroup({});
     hasError = false;
     checked = false;
     err: boolean;
@@ -49,7 +51,9 @@ export class RegisterComponent implements OnInit {
           password: ['', Validators.required],
           verify_password: ['', Validators.required],
           township : ['', Validators.required]
-        },
+        }, {
+          validator: ConfirmedValidator('password', 'verify_password')
+        }
 
         );
         this.filteredOptions = this.registerForm.get('township').valueChanges
