@@ -4,22 +4,28 @@
     </mat-card-header>
     <mat-card-content class="air-card-content container">
         <div class="row">
-            <div class="col-1 indic-1">1</div><div class="col offset-1">Bon</div>
+            <div class="col-1 indic-1" *ngIf="aqi<=50">1</div><div class="col offset-1" *ngIf="aqi<=50">Bon</div>
+            <div class="col-1 indic-disabled" *ngIf="aqi>50">1</div><div class="col offset-1 grey" *ngIf="aqi>50">Bon</div>
         </div>
         <div class="row">
-            <div class="col-1 indic-2">2</div><div class="col offset-1">Moyen</div>
+            <div class="col-1 indic-2" *ngIf="aqi>=51 && aqi<=100">2</div><div class="col offset-1" *ngIf="aqi>=51 && aqi<=100">Moyen</div>
+            <div class="col-1 indic-disabled" *ngIf="aqi<51 || aqi>100">2</div><div class="col offset-1 grey" *ngIf="aqi<51 || aqi>100">Moyen</div>
         </div>
         <div class="row">
-            <div class="col-1 indic-3">3</div><div class="col offset-1">Dégradé</div>
+            <div class="col-1 indic-3" *ngIf="aqi>=101 && aqi<=150">3</div><div class="col offset-1" *ngIf="aqi>=101 && aqi<=150">Dégradé</div>
+            <div class="col-1 indic-disabled" *ngIf="aqi<101 || aqi>150">3</div><div class="col offset-1 grey" *ngIf="aqi<101 || aqi>150">Dégradé</div>
         </div>
         <div class="row">
-            <div class="col-1 indic-4">4</div><div class="col offset-1">Mauvais</div>
+            <div class="col-1 indic-4" *ngIf="aqi>=151 && aqi<=200">4</div><div class="col offset-1" *ngIf="aqi>=151 && aqi<=200">Mauvais</div>
+            <div class="col-1 indic-disabled" *ngIf="aqi<151 || aqi>200">4</div><div class="col offset-1 grey" *ngIf="aqi<151 || aqi>200">Mauvais</div>
         </div>
         <div class="row">
-            <div class="col-1 indic-5">5</div><div class="col offset-1">Très mauvais</div>
+            <div class="col-1 indic-5" *ngIf="aqi>=201 && aqi<=300">5</div><div class="col offset-1" *ngIf="aqi>=201 && aqi<=300">Très mauvais</div>
+            <div class="col-1 indic-disabled" *ngIf="aqi<201 ||aqi>300">5</div><div class="col offset-1 grey" *ngIf="aqi<201 ||aqi>300">Très mauvais</div>
         </div>
         <div class="row">
-            <div class="col-1 indic-6">6</div><div class="col offset-1">Extrêmement mauvais</div>
+            <div class="col-1 indic-6" *ngIf="aqi>=301">6</div><div class="col offset-1" *ngIf="aqi>=301">Extrêmement mauvais</div>
+            <div class="col-1 indic-disabled" *ngIf="aqi<301">6</div><div class="col offset-1 grey" *ngIf="aqi<301">Extrêmement mauvais</div>
         </div>
     </mat-card-content>
 </mat-card>
