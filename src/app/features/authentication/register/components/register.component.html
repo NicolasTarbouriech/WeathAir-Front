@@ -25,40 +25,18 @@
                 <div class="row">
                     <mat-form-field class="full-width">
                         <mat-label class="require">Email </mat-label>
-                        <input [formControl]="registerForm.controls.login" matInput placeholder="Identifiant"
+                        <input [formControl]="registerForm.controls.email" matInput placeholder="Identifiant"
                             autocomplete="off">
-                        <mat-error *ngIf="registerForm.controls.login.hasError('pattern')">
+                        <mat-error *ngIf="registerForm.controls.email.hasError('pattern')">
                             Format d'email incorrect
                         </mat-error>
-                        <mat-error *ngIf="registerForm.controls.login.hasError('required')">
+                        <mat-error *ngIf="registerForm.controls.email.hasError('required')">
                             Ce champs est obligatoire
                         </mat-error>
                     </mat-form-field>
                 </div>
 
-                <div class="row">
-                    <mat-form-field class="full-width">
-                        <mat-label class="require">Commune </mat-label>
-                        <input (keypress)="keyPress($event)" [formControl]="registerForm.controls.commune"
-                            type="commune" matInput placeholder="Commune">
-                        <mat-error *ngIf="registerForm.controls.commune.hasError('required')">
-                            Ce champs est obligatoire
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="row">
-                <mat-form-field class="full-width">
-                    <mat-label class="require">Email </mat-label>
-                    <input [formControl]="registerForm.controls.email" matInput placeholder="Identifiant" autocomplete="off">
-                    <mat-error *ngIf="registerForm.controls.email.hasError('pattern')">
-                        Format d'email incorrect
-                    </mat-error>
-                    <mat-error *ngIf="registerForm.controls.email.hasError('required')">
-                        Ce champs est obligatoire
-                    </mat-error>
-                </mat-form-field>
-            </div>
+        
 
             <div class="row">
                 <mat-form-field class="full-width">

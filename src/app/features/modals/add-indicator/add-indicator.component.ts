@@ -48,7 +48,6 @@ export class AddIndicatorComponent implements OnInit {
 
   addToMyIndicators() {
     console.log(this.connectedUser.id)
-    console.log(this.loginService.isAuthenticated())
     if (this.favoriteForm.valid) {
       console.log(this.favoriteForm.value)
       //this.router.navigate(['/home', {}]);
