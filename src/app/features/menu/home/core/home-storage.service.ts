@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { Township } from "src/app/features/authentication/register/core/township.model";
 import { environment } from "src/environments/environment";
+import { GpsCoordinates } from "../../indicator/core/indicator.model";
 
 @Injectable({
     providedIn:'root'
@@ -23,6 +24,10 @@ export class HomeStorageService {
 
     getTownships() : Observable<Township[]>{
         return this.httpClient.get<Township[]>(`${environment.api.BASE_URL}townships`);
-      }
+    }
+
+    getGpsCoordinates() : Observable<GpsCoordinates[]> {
+        return this.httpClient.get<GpsCoordinates[]>(`${environment.api.BASE_URL}gpscoordinates`);
+    } 
 
 }

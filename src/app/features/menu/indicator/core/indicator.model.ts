@@ -24,3 +24,10 @@ export interface AirIndicator {
     population: number;
   }
 
+  export interface GpsCoordinates {
+    id: number;
+    lat: number;
+    lng: number;
+    township: Township;
+  }
+
