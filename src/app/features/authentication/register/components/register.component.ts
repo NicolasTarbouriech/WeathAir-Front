@@ -1,10 +1,8 @@
 import {Component, ChangeDetectionStrategy,  OnInit, ChangeDetectorRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
-import { environment } from "src/environments/environment";
 import { RegisterService } from "../core/register.service";
 import { Township } from "../core/township.model";
 @Component({
@@ -30,7 +28,6 @@ export class RegisterComponent implements OnInit {
     constructor(
         private router: Router,
         private formBuilder: FormBuilder,
-        private titleService: Title,
         private registerService: RegisterService,
         private changeDetectorRef: ChangeDetectorRef
       ) {
@@ -114,7 +111,7 @@ export class RegisterComponent implements OnInit {
           console.log(err);
         }
       )
-      }
+    }
 
     
 }

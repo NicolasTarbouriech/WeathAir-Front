@@ -13,8 +13,10 @@ const USER_ANONYM  = new User({});
   providedIn: 'root'
 })
 export class RegisterService {
+
   private userConnectedSub: BehaviorSubject<User> = new BehaviorSubject(USER_ANONYM);
   userInBase : User = {email :  '', pseudo : '', password : '' };
+
   constructor(private httpClient: HttpClient) { }
 
 
@@ -25,7 +27,7 @@ export class RegisterService {
 
   getTownships() : Observable<Township[]>{
     return this.httpClient.get<Township[]>(`${environment.api.BASE_URL}townships`);
-    }
+  }
   
 
 }

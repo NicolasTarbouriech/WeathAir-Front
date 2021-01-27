@@ -1,5 +1,8 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
+import { Township } from "src/app/features/authentication/register/core/township.model";
+import { environment } from "src/environments/environment";
 
 @Injectable({
     providedIn:'root'
@@ -8,7 +11,7 @@ export class HomeStorageService {
 
     public township: BehaviorSubject<string> = new BehaviorSubject('');
 
-    constructor(){}
+    constructor(private httpClient: HttpClient){}
 
     public getTownshipStream(): BehaviorSubject<string>{
         return this.township;
@@ -17,5 +20,9 @@ export class HomeStorageService {
     public setTownship(township: string){
         this.township.next(township);
     }
+
+    getTownships() : Observable<Township[]>{
+        return this.httpClient.get<Township[]>(`${environment.api.BASE_URL}townships`);
+      }
 
 }

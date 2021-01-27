@@ -1,9 +1,15 @@
-<div class="title">
+<ng-container *ngIf="!!township">
+
+</ng-container>
+
+
+
+<div class="title" *ngIf="!!township">
     <h1>{{ this.township | titlecase }}</h1>
 </div>
 
 
-<ng-container>
+<ng-container *ngIf="!!township">
     <div class="box-indic">
         <div>
             <app-home></app-home>
