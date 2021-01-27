@@ -24,8 +24,6 @@ export class AddIndicatorComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.loginService.getMe().subscribe(user => console.log(user))
-
     this.loginService.connectedUserObs.subscribe(user => {this.connectedUser = user});
 
     this.favoriteForm = this.formBuilder.group({
@@ -47,15 +45,10 @@ export class AddIndicatorComponent implements OnInit {
   }
 
   addToMyIndicators() {
-    console.log(this.connectedUser.id)
-    console.log(this.loginService.isAuthenticated())
     if (this.favoriteForm.valid) {
-      console.log(this.favoriteForm.value)
       //this.router.navigate(['/home', {}]);
     } else {
       this.favoriteForm.markAllAsTouched();
     }
   }
-
-
 }
