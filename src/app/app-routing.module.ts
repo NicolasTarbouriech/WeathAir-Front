@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { CguComponent } from './features/authentication/cgu/cgu/cgu.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () =>
       import('./features/authentication/register/register.module').then(m => m.RegisterModule)
+  },
+  {
+    path: 'cgu',
+   component : CguComponent
   },
   {
     path: 'indicators',

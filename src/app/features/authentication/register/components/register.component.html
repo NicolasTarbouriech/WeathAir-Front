@@ -1,4 +1,4 @@
-<div class="login-page">
+<div class="register-page">
 
     <mat-card class="auth-card">
         <mat-card-content>
@@ -77,9 +77,12 @@
         </mat-card-content>
    
         <a [routerLink]="'/cgu'" class="cgu" [hidden]="contentLoading">Conditions générales d'utilisation</a>
- 
+
+       
         <mat-radio-button class="radio-button" value="after" [hidden]="contentLoading" >J'ai lu et j'accepte les conditions générales d'utilisation</mat-radio-button>
-    
+       
+
+
         <mat-card-actions>
             <button class="btn" mat-raised-button (click)="getRegister()" >S'inscrire</button>
         </mat-card-actions>
