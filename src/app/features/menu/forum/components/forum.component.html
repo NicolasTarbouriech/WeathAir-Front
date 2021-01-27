@@ -1,6 +1,32 @@
-<h1>PAGE 2</h1>
+<div class="forum-page">
+    <H1>Bienvenue sur le forum de WeathAir Application </H1>
+     <button class="btn" mat-raised-button 
+    (click)="printTopicToTrue()" >Ajouter un topic</button> 
+      
+      <div class="input-group mb-3" *ngIf="printTopicForm" >
+        <div class="input-group-prepend">
+            <div class="input-group-text">Nouveau topic : </div>
+        </div>
+        <input class="form-control" type="text" [(ngModel)]="topicName" placeholder="Add a topic"
+        (keyup.enter)="createTopic()"> 
+   </div>
+</div> 
+ 
 
-<div class="row">
-    <div class="col">Exemple utilisation</div>
-    <div class="col">Bootstrap</div>
-</div>
+<div class="row" *ngIf="topicList">
+    <div class="col">
+        <div class="topic" *ngFor="let topic of topicList">
+
+            <a [routerLink]="'/posts'"   >{{topic.label}}</a>
+            
+             <!-- <div class="posts" *ngFor="let post of topic.posts" >
+                {{post.text}}
+                <div class="message" *ngFor="let message of post.message">
+                    {{message.text}}
+                  
+                </div>
+
+            </div>  -->
+        </div>
+    </div>
+  </div> -

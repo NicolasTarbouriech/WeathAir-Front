@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { CguComponent } from './features/authentication/cgu/cgu/cgu.component';
+import { MessageComponent } from './features/menu/forum/message/components/message/message.component';
+import { PostComponent } from './features/menu/forum/post/components/post/post.component';
 
 const routes: Routes = [
   {
@@ -42,6 +44,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/menu/forum/forum.module').then(m => m.ForumModule)
   },
+  {
+    path: 'posts',
+   component : PostComponent
+  },
+  {
+    path: 'messages',
+   component : MessageComponent
+  }
 ];
 
 @NgModule({
