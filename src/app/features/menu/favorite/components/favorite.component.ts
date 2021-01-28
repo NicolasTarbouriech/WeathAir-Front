@@ -5,6 +5,7 @@ import { AddIndicatorComponent } from 'src/app/features/menu/favorite/modals/add
 import { FavoriteService } from '../favorite.service';
 import { ConnectedUser } from 'src/app/shared/models/ConnectedUser';
 import { LoginService } from 'src/app/features/authentication/login/core/login.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-favorite',
@@ -12,9 +13,11 @@ import { LoginService } from 'src/app/features/authentication/login/core/login.s
   styleUrls: ['./favorite.component.scss']
 })
 export class FavoriteComponent implements OnInit, OnDestroy {
-
-  myFavorites = []
-
+ 
+  
+  myFavorites = [];
+  displayedColumns: string[] = ['township', 'type', 'duration', 'labelIndicator'];
+  dataSource = new MatTableDataSource(this.myFavorites);
   /* Supprimmer le = quand back réparé */
   connectedUser: ConnectedUser = new ConnectedUser({
     email: "admin@admin.com",
@@ -30,13 +33,17 @@ export class FavoriteComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     /* Décommenté quand back réparer */
     /* this.loginService.connectedUserObs.subscribe(user => { this.connectedUser = user }); */
-
+    
     this.favoriteService.getAllFavoriteByConnectedUserId(this.connectedUser.id).subscribe(
       favorites => {
         this.myFavorites = favorites
+        
+        this.dataSource =  new MatTableDataSource(this.myFavorites);
+
       },
       err => console.log(err)
     );
+   
   }
 
   ngOnDestroy(): void { }
@@ -50,5 +57,11 @@ export class FavoriteComponent implements OnInit, OnDestroy {
       console.log(`Dialog result: ${result}`)
     })
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
 
 }

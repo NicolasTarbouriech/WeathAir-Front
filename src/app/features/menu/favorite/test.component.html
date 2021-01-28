@@ -1,0 +1,31 @@
+
+<div class="containerArray">
+    <div class="arrayTitles">
+        <div class="part">
+            <h3>Commune</h3>
+        </div>
+        <div class="part">
+            <h3>Type</h3>
+        </div>
+        <div class="part">
+            <h3>Durée</h3>
+        </div>
+        <div class="part">
+            <h3>Indicateur</h3>
+        </div>
+    </div>
+    <div *ngFor="let favorite of myFavorites" class="arrayDatas">
+        <div class="part">
+            {{favorite.township.name}}
+        </div>
+        <div class="part">
+            {{favorite.township.name}}
+        </div>
+        <div class="part">
+            {{favorite.duration}}
+        </div>
+        <div class="part">
+            {{favorite.labelIndicator}}
+        </div>
+    </div>
+</div>
