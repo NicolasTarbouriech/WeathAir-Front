@@ -51,24 +51,17 @@ h3 {
     cursor: pointer;
 }
 
-.containerArray {
+table {
     width: 80%;
-    margin: auto;
-    border: 1px solid black;
-}
+    margin : auto;
+  }
+  
+  .filter {
+    width : 30%;
+    margin : auto;
 
-.arrayTitles, .arrayDatas {
-    display: flex;
-    width: 70%;
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
 }
-
-.part {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 25%;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
-    padding: 10px 0px;
-}
-

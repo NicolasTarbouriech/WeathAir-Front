@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { LoginService } from 'src/app/features/authentication/login/core/login.service';
-import { Township } from 'src/app/features/authentication/register/core/township.model';
+import { Township } from 'src/app/shared/models/Township';
 import { GpsCoordinates } from '../../indicator/core/indicator.model';
 import { HomeStorageService } from '../core/home-storage.service';
 

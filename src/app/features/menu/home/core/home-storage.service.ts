@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
-import { Township } from "src/app/features/authentication/register/core/township.model";
+import { Township } from "src/app/shared/models/Township";
 import { environment } from "src/environments/environment";
 import { GpsCoordinates } from "../../indicator/core/indicator.model";
 

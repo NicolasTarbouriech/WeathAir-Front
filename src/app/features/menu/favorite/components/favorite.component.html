@@ -10,36 +10,49 @@
     </div>
 </div>
 
-<div class="containerArray">
-    <div class="arrayTitles">
-        <div class="part">
-            <h3>Commune</h3>
-        </div>
-        <div class="part">
-            <h3>Type</h3>
-        </div>
-        <div class="part">
-            <h3>Durée</h3>
-        </div>
-        <div class="part">
-            <h3>Indicateur</h3>
-        </div>
-    </div>
-    <div *ngFor="let favorite of myFavorites" class="arrayDatas">
-        <div class="part">
-            {{favorite.township.name}}
-        </div>
-        <div class="part">
-            {{favorite.township.name}}
-        </div>
-        <div class="part">
-            {{favorite.duration}}
-        </div>
-        <div class="part">
-            {{favorite.labelIndicator}}
-        </div>
-    </div>
+<div class="filter">
+<mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. montp" #input>
+  </mat-form-field>
 </div>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+    <!-- Commune Column -->
+    <ng-container matColumnDef="township">
+      <th mat-header-cell *matHeaderCellDef> Commune</th>
+      <td mat-cell *matCellDef="let element"> {{element.township.name}} </td>
+    </ng-container>
+  
+    <!-- Type Column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef> Type </th>
+      <td mat-cell *matCellDef="let element">{{element.type}}  </td>
+    </ng-container>
+  
+    <!-- Durée Column -->
+    <ng-container matColumnDef="duration">
+      <th mat-header-cell *matHeaderCellDef> Durée </th>
+      <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
+    </ng-container>
+  
+    <!-- Indicateur Column -->
+    <ng-container matColumnDef="labelIndicator">
+      <th mat-header-cell *matHeaderCellDef> Indicateur </th>
+      <td mat-cell *matCellDef="let element"> {{element.labelIndicator}} </td>
+    </ng-container>
+  
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  
+  </table>
+
 
 <div class="btnAddIndicator" (click)="openDialog()">
     <img src="assets/icons/add.png" alt="add icon">
