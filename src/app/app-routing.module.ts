@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { CguComponent } from './features/authentication/cgu/cgu/cgu.component';
+import { PostComponent } from './features/menu/forum/post/components/post/post.component';
 
 const routes: Routes = [
   {
@@ -16,6 +18,10 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () =>
       import('./features/authentication/register/register.module').then(m => m.RegisterModule)
+  },
+  {
+    path: 'cgu',
+   component : CguComponent
   },
   {
     path: 'indicators',
@@ -37,6 +43,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/menu/forum/forum.module').then(m => m.ForumModule)
   },
+  {
+    path: ':id/posts',
+   component : PostComponent
+  }
 ];
 
 @NgModule({

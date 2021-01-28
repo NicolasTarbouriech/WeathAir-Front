@@ -1,32 +1,34 @@
 
 import { environment } from '../../../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { Observable, of,BehaviorSubject } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {  map , tap, catchError, mapTo,  } from 'rxjs/operators';
+import { map, tap, catchError, mapTo, } from 'rxjs/operators';
 import { User } from './login.model';
 import { Tokens } from './tokens.models';
+import { ConnectedUser } from 'src/app/shared/models/ConnectedUser';
 
-
-const USER_ANONYM  = new User({});
+/* Anomy user */
+const USER_ANONYM = new ConnectedUser({});
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private userConnectedSub: BehaviorSubject<User> = new BehaviorSubject(USER_ANONYM);
+  private userConnectedSub: BehaviorSubject<ConnectedUser> = new BehaviorSubject(USER_ANONYM);
+
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private loggedUser: string;
 
   constructor(private httpClient: HttpClient) {
-   }
+  }
 
 
-  
 
 
-  get connectedUserObs(): Observable<User> {
+
+  get connectedUserObs(): Observable<ConnectedUser> {
     return this.userConnectedSub.asObservable();
   }
 
@@ -36,16 +38,14 @@ export class LoginService {
    * Une requête HTTP est déclenchée pour récupérer le collègue connecté s'il n'est pas en cache.
    *
    */
-  checkAuthentication(): Observable<User> {
+  verifierAuthentification(): Observable<ConnectedUser> {
     return this.userConnectedSub.getValue().notConnected() ?
-            this.httpClient.get<User>(`${environment.api.BASE_URL}
-            `, {withCredentials: true})
-                  .pipe(
-                    
-                    map(utilisateurServeur => new User(utilisateurServeur)),
-                    tap(u => this.userConnectedSub.next(u)),
-                    catchError(err => of(USER_ANONYM))
-                  ) :     of(this.userConnectedSub.getValue());
+      this.httpClient.get<ConnectedUser>(`${environment.api.BASE_URL}users/me`)
+        .pipe(
+          map(userServer => new ConnectedUser(userServer)),
+          tap(user => this.userConnectedSub.next(user)),
+          catchError(err => of(USER_ANONYM))
+        ) : of(this.userConnectedSub.getValue());
   }
 
   /**
@@ -83,7 +83,4 @@ export class LoginService {
       );
 
   }
-  
-  
 }
-

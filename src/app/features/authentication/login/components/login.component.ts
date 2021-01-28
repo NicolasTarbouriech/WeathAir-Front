@@ -6,6 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { LoginService } from '../core/login.service'
 import { HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
   emailValidationRegEx = '^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*([-]{1})?@[a-z0-9]+([\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$';
   checked = false;
   isLoading: Boolean = false;
-  
+
   // utilisé pour afficher l'erreur de login
   hasError = false;
   loginForm: FormGroup;
@@ -28,14 +29,11 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private titleService: Title,
     private loginService: LoginService
   ) {
   }
 
   ngOnInit() {
-   // this.titleService.setTitle(`${environment.appName} | Login`)
-
     this.loginForm = this.formBuilder.group({
       email: [
         '',
@@ -46,7 +44,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     }
     );
-    
+
   }
 
   keyPress(event) {
@@ -58,16 +56,16 @@ export class LoginComponent implements OnInit {
 
   getLogin() {
     // console.log(this.loginForm.controls.email.value, this.loginForm.controls.password.value)
-  this.loginService.login(this.loginForm.controls.email.value,  this.loginForm.controls.password.value)
-  .subscribe(
-    // en cas de succès, redirection vers la page /d'acceuil
-   u => {
-      this.router.navigate([`/home`]);
-  },
-    // en cas d'erreur, affichage d'un message d'erreur
-    err => this.err = true
-  );
-}
+    this.loginService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value)
+      .subscribe(
+        // en cas de succès, redirection vers la page /d'acceuil
+        u => {
+          this.router.navigate([`/home`]);
+        },
+        // en cas d'erreur, affichage d'un message d'erreur
+        err => this.err = true
+      );
+  }
 
 
 

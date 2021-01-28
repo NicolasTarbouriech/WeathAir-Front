@@ -1,4 +1,4 @@
-<div class="login-page">
+<div class="register-page">
 
     <mat-card class="auth-card">
         <mat-card-content>
@@ -36,8 +36,6 @@
                     </mat-form-field>
                 </div>
 
-        
-
             <div class="row">
                 <mat-form-field class="full-width">
                   <mat-label class="require">Commune</mat-label>
@@ -67,7 +65,9 @@
                     <mat-error *ngIf="registerForm.controls.verify_password.hasError('required')">
                         Ce champs est obligatoire
                     </mat-error>
-                  
+                    <mat-error *ngIf="confirmationHasError">
+                      Le mot de passe & la confirmation du mot de passe doivent être identiques 
+                    </mat-error>
                 </mat-form-field>
             </div> 
      
@@ -77,14 +77,17 @@
         </mat-card-content>
    
         <a [routerLink]="'/cgu'" class="cgu" [hidden]="contentLoading">Conditions générales d'utilisation</a>
- 
+
+       
         <mat-radio-button class="radio-button" value="after" [hidden]="contentLoading" >J'ai lu et j'accepte les conditions générales d'utilisation</mat-radio-button>
-    
+       
+
+
         <mat-card-actions>
             <button class="btn" mat-raised-button (click)="getRegister()" >S'inscrire</button>
         </mat-card-actions>
         <div class="registerLink">
-      
+         
     </div>
     </mat-card>
 </div>

@@ -4,7 +4,7 @@ import { environment } from "src/environments/environment";
 import { User } from "./register.model";
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, tap } from "rxjs/operators";
-import { Township } from "./township.model";
+import { Township } from "src/app/shared/models/Township";
 
 
 const USER_ANONYM  = new User({});
@@ -20,7 +20,7 @@ export class RegisterService {
   constructor(private httpClient: HttpClient) { }
 
 
-  register(pseudo : string, email: string, password: string , township : Township ): Observable<User> {
+  register(pseudo : string, email: string, password: string , township : Township): Observable<User> {
     const connect = { email : email, password : password, pseudo : pseudo, township : township};
    return this.httpClient.post<User>(`${environment.api.BASE_URL}users`, connect);
   }

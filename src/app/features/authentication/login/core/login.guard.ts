@@ -13,7 +13,7 @@ import { LoginService } from "./login.service";
     }
   
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-      return this._loginService.checkAuthentication()
+      return this._loginService.verifierAuthentification()
         .pipe(
           map(user => !user.notConnected()),
           tap(estConnecte => {
