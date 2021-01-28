@@ -1,27 +1,31 @@
 <div class="title">
-    <h1>Bienvenue sur le forum de WeathAir Application </h1>
+    <p>Forum</p>
+</div>
+<div class="subtitle">
+    <p>Top List</p>
 </div>
 
-<div class="forum-page">
-     <button class="btn" mat-raised-button 
-    (click)="printTopicToTrue()" >Ajouter un topic</button> 
-      
-      <div class="input-group mb-3" *ngIf="printTopicForm" >
+<!-- <div class="forum-page">
+    <button class="btn" mat-raised-button (click)="printTopicToTrue()">Ajouter un topic</button>
+
+    <div class="input-group mb-3" *ngIf="printTopicForm">
         <div class="input-group-prepend">
             <div class="input-group-text">Nouveau topic : </div>
         </div>
         <input class="form-control" type="text" [(ngModel)]="topicName" placeholder="Add a topic"
-        (keyup.enter)="createTopic()"> 
-   </div>
-</div> 
- 
+            (keyup.enter)="createTopic()">
+    </div>
+</div> -->
 
-<div class="row" *ngIf="topicList">
-    <div class="col">
-        <div class="topic" *ngFor="let topic of topicList">
 
-            <a [routerLink]="['/',topic.id, 'posts']"  >{{topic.label}}</a>
-            
+<div class="containerTopics" *ngIf="topicList">
+    <div class="topic" *ngFor="let topic of topicList">
+        <div class="topicName">
+            <p>{{topic.label}}</p>
+            <!-- "['/',topic.id, 'posts']" -->
+        </div>
+        <div class="arrow">
+            <img src="assets/icons/rightArrown.png" alt="Arrow Icon">
         </div>
     </div>
-  </div> -
+</div>
