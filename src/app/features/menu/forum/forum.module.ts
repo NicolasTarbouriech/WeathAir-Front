@@ -4,10 +4,9 @@ import { ForumComponent } from "./components/forum.component";
 import { SharedModule } from '../../../shared/shared.module';
 import { ForumRoutingModule } from "./forum-routing.module";
 import { PostComponent } from './post/components/post/post.component';
-import { MessageComponent } from './message/components/message/message.component';
 
 @NgModule({
-    declarations: [ForumComponent, ForumComponent, PostComponent, MessageComponent],
+    declarations: [ForumComponent, ForumComponent, PostComponent],
     imports: [
       CommonModule,
      ForumRoutingModule, 

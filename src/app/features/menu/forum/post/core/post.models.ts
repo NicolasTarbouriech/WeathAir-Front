@@ -1,4 +1,4 @@
-import { Message } from "../../message/core/message.models";
+import { Message } from "./message.models";
 
 export class Post {
     id?: number;

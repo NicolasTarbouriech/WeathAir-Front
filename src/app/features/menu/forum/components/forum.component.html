@@ -1,5 +1,8 @@
+<div class="title">
+    <h1>Bienvenue sur le forum de WeathAir Application </h1>
+</div>
+
 <div class="forum-page">
-    <H1>Bienvenue sur le forum de WeathAir Application </H1>
      <button class="btn" mat-raised-button 
     (click)="printTopicToTrue()" >Ajouter un topic</button> 
       
@@ -17,16 +20,8 @@
     <div class="col">
         <div class="topic" *ngFor="let topic of topicList">
 
-            <a [routerLink]="'/posts'"   >{{topic.label}}</a>
+            <a [routerLink]="['/',topic.id, 'posts']"  >{{topic.label}}</a>
             
-             <!-- <div class="posts" *ngFor="let post of topic.posts" >
-                {{post.text}}
-                <div class="message" *ngFor="let message of post.message">
-                    {{message.text}}
-                  
-                </div>
-
-            </div>  -->
         </div>
     </div>
   </div> -

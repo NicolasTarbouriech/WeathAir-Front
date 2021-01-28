@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Message } from '../../core/message.models';
 import { Post } from '../../core/Post.models';
 import { PostService } from '../../core/post.service';
 
@@ -10,16 +11,22 @@ import { PostService } from '../../core/post.service';
 })
 export class PostComponent implements OnInit {
 
+  messageName :string;
   printPostForm = false;
-  postList: Post[];
+  postList: Post[]= [];
   postName : string;
   postTitle : string;
-  idPost : number;
-  constructor(private postService: PostService,private router:Router) { }
+  idTopic : number;
+
+  constructor(private postService: PostService, 
+    private router:Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.printPostForm;
-    this.postService.getAllPosts().subscribe( result => {
+    this.idTopic = parseInt(this.route.snapshot.paramMap.get("id"));
+    console.log(this.idTopic);
+
+    this.postService.getPostById(this.idTopic).subscribe( result => {
       this.postList = result;
       console.log(result);
     }, err => {
@@ -37,7 +44,15 @@ export class PostComponent implements OnInit {
       // data => this.topicList.push(data),
       err => console.log(err)
     );
-   
+  }
+
+  createMessage(){
+    var message = new Message({"text": this.messageName});
+    this.postService.postMessage(message).subscribe(
+      // data => this.topicList.push(data),
+      err => console.log(err)
+    );
+    this.printPostForm = false;    
   }
 
 }

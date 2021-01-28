@@ -19,11 +19,15 @@
 
 <div class="posts" *ngFor="let post of postList" >
 
-    <a [routerLink]="'/messages'"   >{{post.text}}</a>
+    <p>{{post.text}}</p>
+    <div class="answer">
+        <input class="form-control" type="text" [(ngModel)]="messageName" placeholder="Add a message"
+        (keyup.enter)="createMessage()"> 
+    </div>
     <div class="message" *ngFor="let message of post.message">
         {{message.text}}
-      
     </div>
+   
 
     
 </div>  
