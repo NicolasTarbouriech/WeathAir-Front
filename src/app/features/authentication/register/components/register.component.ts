@@ -1,28 +1,29 @@
 import {Component, ChangeDetectionStrategy,  OnInit, ChangeDetectorRef } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
+import { Township } from "src/app/shared/models/Township";
 import { RegisterService } from "../core/register.service";
-import { Township } from "../core/township.model";
+
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
   })
-
-  
 export class RegisterComponent implements OnInit {
 
     emailValidationRegEx = '^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*([-]{1})?@[a-z0-9]+([\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$';
-    registerForm: FormGroup;
+    // registerForm: FormGroup;
+    registerForm : FormGroup = new FormGroup({});
     hasError = false;
     checked = false;
     err: boolean;
     filteredOptions: Observable<any[]>;
     options : Township[] = [];
-  
+    confirmationHasError: boolean = false;
     contentLoading : boolean = true;
 
     constructor(
@@ -36,7 +37,7 @@ export class RegisterComponent implements OnInit {
       
         this.loadCities();
         this.registerForm = this.formBuilder.group({
-          pseudo :  ['', Validators.required],
+          pseudo : ['', Validators.required],
           email: [
             '',
             Validators.compose([
@@ -46,15 +47,14 @@ export class RegisterComponent implements OnInit {
           password: ['', Validators.required],
           verify_password: ['', Validators.required],
           township : ['', Validators.required]
-        },
+        });
 
-        );
         this.filteredOptions = this.registerForm.get('township').valueChanges
       .pipe(
         startWith(''),
         map(value => typeof value === 'string' ? value : value.name),
         map(name => name ? this._filter(name) : this.options.slice())
-      );
+      )
     }
 
    private _filter(name: string): any[] {
@@ -72,10 +72,28 @@ export class RegisterComponent implements OnInit {
       }
 
       getRegister() {
+        if (!this.registerForm.valid){
+          this.registerForm.markAllAsTouched();
+          return;
+        }
+        
         const selectedTown = this.registerForm.controls.township.value;
         if(!selectedTown) {
           return;
         }
+        const pass = this.registerForm.controls.password.value;
+        const verifyPass = this.registerForm.controls.verify_password.value;
+        this.confirmationHasError = false;
+        this.registerForm.controls.verify_password.setErrors( null);
+
+        if(pass!==verifyPass){
+          this.confirmationHasError = true;
+          this.registerForm.markAllAsTouched();
+          this.registerForm.controls.verify_password.setErrors({ 'incorrect' : true });
+          this.changeDetectorRef.detectChanges();
+          return;
+        }
+
       this.registerService.register(
         this.registerForm.controls.pseudo.value,
         this.registerForm.controls.email.value,
