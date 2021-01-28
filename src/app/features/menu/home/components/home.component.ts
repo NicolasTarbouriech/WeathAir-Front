@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { LoginService } from 'src/app/features/authentication/login/core/login.service';
 import { Township } from 'src/app/features/authentication/register/core/township.model';
 import { GpsCoordinates } from '../../indicator/core/indicator.model';
 import { HomeStorageService } from '../core/home-storage.service';
@@ -22,9 +23,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   center = {
     lat : 43.3925,
     lng : 2.8834
-  }
+  };
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private homeStorageService: HomeStorageService, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private formBuilder: FormBuilder, private router: Router, 
+    private homeStorageService: HomeStorageService, private changeDetectorRef: ChangeDetectorRef, 
+    private authsrv: LoginService) {
     
   }
 
@@ -41,6 +44,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         map(value => typeof value === 'string' ? value : value.name),
         map(name => name ? this._filter(name) : this.options.slice())
       );
+        this.authsrv.getMe().subscribe(
+          res => {console.log(res)},
+          err => {console.log(err)}
+        )
   }
 
   ngOnDestroy(): void {}

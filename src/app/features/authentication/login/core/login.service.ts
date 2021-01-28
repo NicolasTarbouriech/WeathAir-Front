@@ -57,15 +57,15 @@ export class LoginService {
   login(email: string, password: string): Observable<any> {
     let connect = { username : email, password : password};
   
-    return this.httpClient.post(`${environment.api.BASE_URL}login`, connect)
+    return this.httpClient.post(`${environment.api.BASE_URL}login`, connect, {withCredentials: true})
       .pipe(
         map(userServeur => new User(userServeur)),
-        tap(col => this.userConnectedSub.next(col))
+        tap(user => this.userConnectedSub.next(user))
       );
   }
 
   getMe() :Observable<Object> {
-    return this.httpClient.get(`${environment.api.BASE_URL}users/me`)
+    return this.httpClient.get(`${environment.api.BASE_URL}users/me`, {withCredentials: true})
   }
 
   /**
@@ -74,20 +74,12 @@ export class LoginService {
    * Le serveur provoque la suppression du cookie AUTH-TOKEN.
    *
    */
-  seDeconnecter() {
-
-    const config = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded'
-      })
-    };
-
-    localStorage.removeItem("idUser");
-    localStorage.removeItem("roleUser");
-
-    return this.httpClient.post<User>(`${environment.api.BASE_URL}`, null , config)
+  logout() {
+    return this.httpClient.get(`${environment.api.BASE_URL}logout`, {withCredentials: true})
       .pipe(
-        tap(col => this.userConnectedSub.next(USER_ANONYM))
+        tap(() => {
+          console.log('on est bien dedans');
+          this.userConnectedSub.next(null);})
       );
 
   }
