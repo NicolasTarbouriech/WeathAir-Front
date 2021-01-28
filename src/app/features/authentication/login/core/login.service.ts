@@ -6,15 +6,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, tap, catchError, mapTo, } from 'rxjs/operators';
 import { User } from './login.model';
 import { Tokens } from './tokens.models';
+import { ConnectedUser } from 'src/app/shared/models/ConnectedUser';
 
 /* Anomy user */
-const USER_ANONYM = new User({});
+const USER_ANONYM = new ConnectedUser({});
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private userConnectedSub: BehaviorSubject<User> = new BehaviorSubject(USER_ANONYM);
+  private userConnectedSub: BehaviorSubject<ConnectedUser> = new BehaviorSubject(USER_ANONYM);
 
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
@@ -27,7 +28,7 @@ export class LoginService {
 
 
 
-  get connectedUserObs(): Observable<User> {
+  get connectedUserObs(): Observable<ConnectedUser> {
     return this.userConnectedSub.asObservable();
   }
 
@@ -37,11 +38,11 @@ export class LoginService {
    * Une requête HTTP est déclenchée pour récupérer le collègue connecté s'il n'est pas en cache.
    *
    */
-  verifierAuthentification(): Observable<User> {
+  verifierAuthentification(): Observable<ConnectedUser> {
     return this.userConnectedSub.getValue().notConnected() ?
-      this.httpClient.get<User>(`${environment.api.BASE_URL}users/me`, { withCredentials: true })
+      this.httpClient.get<ConnectedUser>(`${environment.api.BASE_URL}users/me`)
         .pipe(
-          map(userServer => new User(userServer)),
+          map(userServer => new ConnectedUser(userServer)),
           tap(user => this.userConnectedSub.next(user)),
           catchError(err => of(USER_ANONYM))
         ) : of(this.userConnectedSub.getValue());
@@ -53,13 +54,14 @@ export class LoginService {
    * Le serveur provoque la création du cookie AUTH-TOKEN.
    *
    */
-  login(email: string, password: string): Observable<any> {
+  login(email: string, password: string): Observable<ConnectedUser> {
     let connect = { username: email, password: password };
 
-    return this.httpClient.post(`${environment.api.BASE_URL}login`, connect)
+    /* L'url pointe sur un mock !! A changer quand le back sera réparé !! */
+    return this.httpClient.post(`https://demo6510050.mockable.io/api/login`, connect)
       .pipe(
-        map(userServeur => new User(userServeur)),
-        tap(col => this.userConnectedSub.next(col))
+        map(userServeur => new ConnectedUser(userServeur)),
+        tap(user => this.userConnectedSub.next(user))
       );
   }
 
