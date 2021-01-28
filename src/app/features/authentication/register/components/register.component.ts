@@ -4,8 +4,8 @@ import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
+import { Township } from "src/app/shared/models/Township";
 import { RegisterService } from "../core/register.service";
-import { Township } from "../core/township.model";
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
@@ -30,7 +30,6 @@ export class RegisterComponent implements OnInit {
     constructor(
         private router: Router,
         private formBuilder: FormBuilder,
-        private titleService: Title,
         private registerService: RegisterService,
         private changeDetectorRef: ChangeDetectorRef
       ) {

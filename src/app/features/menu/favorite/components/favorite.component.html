@@ -1,12 +1,43 @@
 <h1 class="title">Mes indicateurs</h1>
 
-<div *ngIf="myIndicators.length<1" class="containerNoIndicators">
+<div *ngIf="myFavorites.length<1" class="containerNoIndicators">
     <div class="noIndicatorsText">
         <h1 class="t1">Vous n'avez pas encore d'indicateurs personnalisés ..</h1>
         <h1 class="t2">Ajoutez-en !</h1>
     </div>
     <div class="arrowImg">
         <img src="assets/icons/arrow.png" alt="arrow icon">
+    </div>
+</div>
+
+<div class="containerArray">
+    <div class="arrayTitles">
+        <div class="part">
+            <h3>Commune</h3>
+        </div>
+        <div class="part">
+            <h3>Type</h3>
+        </div>
+        <div class="part">
+            <h3>Durée</h3>
+        </div>
+        <div class="part">
+            <h3>Indicateur</h3>
+        </div>
+    </div>
+    <div *ngFor="let favorite of myFavorites" class="arrayDatas">
+        <div class="part">
+            {{favorite.township.name}}
+        </div>
+        <div class="part">
+            {{favorite.township.name}}
+        </div>
+        <div class="part">
+            {{favorite.duration}}
+        </div>
+        <div class="part">
+            {{favorite.labelIndicator}}
+        </div>
     </div>
 </div>
 
