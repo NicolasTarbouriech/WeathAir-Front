@@ -6,14 +6,13 @@ import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { Township } from "src/app/shared/models/Township";
 import { RegisterService } from "../core/register.service";
+
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
   })
-
-  
 export class RegisterComponent implements OnInit {
 
     emailValidationRegEx = '^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*([-]{1})?@[a-z0-9]+([\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$';
@@ -130,7 +129,7 @@ export class RegisterComponent implements OnInit {
           console.log(err);
         }
       )
-      }
+    }
 
     
 }
