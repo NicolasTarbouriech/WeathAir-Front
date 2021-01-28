@@ -26,8 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   };
 
   constructor(private formBuilder: FormBuilder, private router: Router, 
-    private homeStorageService: HomeStorageService, private changeDetectorRef: ChangeDetectorRef, 
-    private authsrv: LoginService) {
+    private homeStorageService: HomeStorageService, private changeDetectorRef: ChangeDetectorRef) {
     
   }
 
@@ -44,10 +43,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         map(value => typeof value === 'string' ? value : value.name),
         map(name => name ? this._filter(name) : this.options.slice())
       );
-        this.authsrv.getMe().subscribe(
-          res => {console.log(res)},
-          err => {console.log(err)}
-        )
   }
 
   ngOnDestroy(): void {}
