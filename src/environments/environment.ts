@@ -6,8 +6,9 @@ export const environment = {
   production: false,
   appName : 'My Smart App [DEV]',
   api: {
-    //BASE_URL: 'http://demo6510050.mockable.io/api/',
-    BASE_URL : 'http://localhost:8080/api/',
+    // ma mock base : 
+    BASE_URL: 'http://demo8845022.mockable.io/api/',
+    // BASE_URL : 'http://localhost:8080/api/',
     API_VERSION: 'api/v1',
   }
 };

@@ -1,0 +1,33 @@
+<div class="row">
+    <button class="btn" mat-raised-button 
+    (click)="printPostToTrue()" >Ajouter un Post : </button> 
+
+    <button class="btn" mat-raised-button 
+    [routerLink]="'/forum'" >Retour aux Topics </button> 
+</div>
+
+
+    <div class="input-group mb-3" *ngIf="printPostForm" >
+        <div class="input-group-prepend">
+            <div class="input-group-text">Nouveau Post : </div>
+        </div>
+
+        <input class="form-control" type="text" [(ngModel)]="postName" placeholder="Add a Post"
+        (keyup.enter)="createPost()"> 
+    </div>
+
+
+<div class="posts" *ngFor="let post of postList" >
+
+    <p>{{post.text}}</p>
+    <div class="answer">
+        <input class="form-control" type="text" [(ngModel)]="messageName" placeholder="Add a message"
+        (keyup.enter)="createMessage()"> 
+    </div>
+    <div class="message" *ngFor="let message of post.message">
+        {{message.text}}
+    </div>
+   
+
+    
+</div>  
