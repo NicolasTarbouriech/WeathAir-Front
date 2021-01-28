@@ -6,13 +6,21 @@
     <div class="home-card">
         <form class="form-container">
             <label>Commune :</label>
-            <input type="email" class="form-control search-form" [formControl]="searchForm.controls.township">
+            <input type="text" class="form-control search-form" [formControl]="searchForm.controls.township" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let townshipDB of filteredOptions | async" [value]="townshipDB">
+                  {{townshipDB.name}}
+                </mat-option>
+              </mat-autocomplete>
             <button mat-raised-button type="button" class="btnSearch" (click)="btnClick();">Go!</button>
         </form>
         
     </div>
 
     <div class="maps-container">
-        <google-map width="100%"></google-map>
+        <google-map width="100%" [zoom]="7" [center]="center">
+            <map-marker *ngFor="let marker of coordinatesList" [position]="marker" ></map-marker>
+            <!-- <map-marker [position]="coordinate" ></map-marker> -->
+        </google-map>
     </div>
 </ng-container>

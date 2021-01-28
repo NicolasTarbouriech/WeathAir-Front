@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
+import { LoginService } from '../../authentication/login/core/login.service';
 
 @Component({
   selector: 'app-menu',
@@ -15,7 +16,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   navigation = [];
   mode = new FormControl('over');
 
-  constructor( private router: Router ) {
+  constructor( private router: Router, private loginService : LoginService ) {
     this.initMenuItems();
   }
 
@@ -34,7 +35,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   onLogoutClick() {
+    this.loginService.logout();
     this.router.navigate(['/login', {}]);
+
   }
   
 }
