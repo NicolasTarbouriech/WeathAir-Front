@@ -5,7 +5,7 @@
     <p>Top List</p>
 </div>
 
-<!-- <div class="forum-page">
+<div class="forum-page">
     <button class="btn" mat-raised-button (click)="printTopicToTrue()">Ajouter un topic</button>
 
     <div class="input-group mb-3" *ngIf="printTopicForm">
@@ -15,15 +15,15 @@
         <input class="form-control" type="text" [(ngModel)]="topicName" placeholder="Add a topic"
             (keyup.enter)="createTopic()">
     </div>
-</div> -->
+</div> 
 
 
 <div class="containerTopics" *ngIf="topicList">
     <div class="topic" *ngFor="let topic of topicList">
         <div class="topicName">
-            <p>{{topic.label}}</p>
-            <!-- "['/',topic.id, 'posts']" -->
-        </div>
+           <a [routerLink]="['/', topic.id, 'posts']"  >{{topic.label}}</a>
+         
+        </div>  
         <div class="arrow">
             <img src="assets/icons/rightArrown.png" alt="Arrow Icon">
         </div>
