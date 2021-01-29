@@ -3,7 +3,8 @@
 </div>
 <div class="title">
     <ng-container *ngIf="!!favorite">
-        Indice de {{ favorite.labelIndicator | uppercase}} pour la dernière {{ favorite.duration }} à {{ favorite.township.name | titlecase }}
+        Indice de <span class="emphase">{{ indicatorLabel }}</span> pour {{ durationLabel }} à <span class="emphase">{{ favorite.township.name | titlecase }}</span>
     </ng-container>
 </div>
     
+<div echarts [options]="options"></div>
