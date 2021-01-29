@@ -12,43 +12,44 @@ import { PostService } from '../../core/post.service';
 })
 export class PostComponent implements OnInit {
 
-  messageName :string;
+  messageText: string;
+  messageDate: Date;
   printPostForm = false;
-  postList: Post[]= [];
-  messageList : Message[] = [];
-  postName : string;
-  postTitle : string;
-  topic_id : number;
-  post_id : number;
-  getPostById : Post [];
-  constructor(private postService: PostService, 
-    private router:Router, private route: ActivatedRoute) {
-      
-    }
+  postList: Post[] = [];
+  messageList: Message[] = [];
+  postTitle: string;
+  postText: string;
+  topic_id: number;
+  post_id: number;
+  getPostById: Post[];
+  constructor(private postService: PostService,
+    private router: Router, private route: ActivatedRoute) {
+
+  }
 
   ngOnInit(): void {
     this.printPostForm;
     this.topic_id = parseInt(this.route.snapshot.paramMap.get("id"));
     console.log(this.topic_id);
     console.log(this.post_id);
-      this.showPostById();
+    this.showPostById();
   }
 
-  printPostToTrue(){
+  printPostToTrue() {
     this.printPostForm = true;
   }
 
   showPostById() {
-  return this.postService.getAllPostsByTopic(this.topic_id)
+    return this.postService.getAllPostsByTopic(this.topic_id)
       .subscribe(result => {
-            this.postList = result;
-            const postIds = result.map(element => element.id);
-            console.log(postIds); 
-           postIds.forEach(element => {
-             this.showMessageById(element);
+        this.postList = result;
+        const postIds = result.map(element => element.id);
+        console.log(postIds);
+        postIds.forEach(element => {
+          this.showMessageById(element);
 
-           })
-        },
+        })
+      },
         error => {
           console.log(error);
         });
@@ -56,30 +57,45 @@ export class PostComponent implements OnInit {
 
   showMessageById(postId: number) {
     return this.postService.getAllMessagesByPost(this.topic_id, postId)
-        .subscribe(result => {
-              const postIndex = this.postList.findIndex(element => element.id === postId);
-              this.postList[postIndex].message = result;
-          },
-          error => {
-            console.log(error);
-          });
-    }
-
-  createPost(){
-    var post = new Post({"text": this.postName, "title": this.postTitle});
-    this.postService.postPost(this.topic_id, post).subscribe(
-      // data => this.topicList.push(data),
-      err => console.log(err)
-    );
+      .subscribe(result => {
+        const postIndex = this.postList.findIndex(element => element.id === postId);
+        this.postList[postIndex].message = result;
+      },
+        error => {
+          console.log(error);
+        });
   }
 
-  createMessage(){
-    var message = new Message({"text": this.messageName});
-    this.postService.postMessage(this.topic_id, this.post_id, message).subscribe(
-      // data => this.topicList.push(data),
-      err => console.log(err)
+  createPost() {
+    var post = new Post({ "text": this.postText, "title": this.postTitle });
+    this.postService.postPost(this.topic_id, post).subscribe(
+      data => {
+        this.postList.push(data)
+        console.log(data)
+      },
+      err => {
+        console.log(err)
+      }
     );
-    this.printPostForm = false;    
+    this.printPostForm = false;
+  }
+
+  createMessage(post_id : number) {
+    var message = new Message({ "text": this.messageText, "date_time" : this.messageDate});
+    this.postService.postMessage(this.topic_id, post_id, message).subscribe(
+      data => {
+      const postIndex = this.postList.findIndex(element => element.id === post_id);
+     if( !!this.postList[postIndex].message) {
+       this.postList[postIndex].message.push(data);
+     } else {
+       this.postList[postIndex].message = [];
+       this.postList[postIndex].message.push(data);
+     }
+      },
+      err => {console.log(err)
+      }
+    );
+    this.printPostForm = false;
   }
 
 }
