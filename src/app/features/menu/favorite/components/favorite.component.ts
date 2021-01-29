@@ -30,14 +30,14 @@ export class FavoriteComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     private favoriteService: FavoriteService,
-    private ConnectedUserService: ConnectedUserService,
+    private connectedUserService: ConnectedUserService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.ConnectedUserService.findConnectedUser().then(user => {
+    this.connectedUserService.findConnectedUser().then(user => {
       this.connectedUser = user;
-      this.ConnectedUserService.chargeFav(user);
+      this.connectedUserService.chargeFav(user);
     })
 
     this.getMyFavorites()
@@ -99,7 +99,7 @@ export class FavoriteComponent implements OnInit, OnDestroy {
     })
   }
 
-  openDialogCreate() {
+  createFavorite() {
     let dialogRef = this.dialog.open(AddIndicatorComponent, {
       data: { connectedUser: this.connectedUser },
       width: '500px'
