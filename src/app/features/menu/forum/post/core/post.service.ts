@@ -27,6 +27,7 @@ import { Post } from "./post.models";
         
         
         postPost( topic_id : number, post : Post): Observable<Post>{
+            post.topicId = topic_id;
             return this.http.post<Post>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts`, post, { withCredentials : true });
           }
         

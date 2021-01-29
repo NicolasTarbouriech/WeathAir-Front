@@ -16,8 +16,8 @@ export class PostComponent implements OnInit {
   printPostForm = false;
   postList: Post[]= [];
   messageList : Message[] = [];
-  postName : string;
   postTitle : string;
+  postText : string;
   topic_id : number;
   post_id : number;
   getPostById : Post [];
@@ -66,17 +66,21 @@ export class PostComponent implements OnInit {
     }
 
   createPost(){
-    var post = new Post({"text": this.postName, "title": this.postTitle});
+    var post = new Post({"text": this.postText, "title": this.postTitle});
     this.postService.postPost(this.topic_id, post).subscribe(
-      // data => this.topicList.push(data),
-      err => console.log(err)
+      data => {this.postList.push(data)
+        console.log(data)
+      },
+      err => {
+        console.log(err)}
     );
+    this.printPostForm = false;  
   }
 
   createMessage(){
-    var message = new Message({"text": this.messageName});
+    var message = new Message({"text": this.messageName, "post" : this.post_id});
     this.postService.postMessage(this.topic_id, this.post_id, message).subscribe(
-      // data => this.topicList.push(data),
+      data => this.messageList.push(data),
       err => console.log(err)
     );
     this.printPostForm = false;    

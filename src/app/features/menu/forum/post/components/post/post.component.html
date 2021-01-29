@@ -12,24 +12,41 @@
             <div class="input-group-text">Nouveau Post : </div>
         </div>
 
-        <input class="form-control" type="text" [(ngModel)]="postName" placeholder="Add a Post"
+     
+       
+
+        <input class="form-control" [(ngModel)]="postTitle" placeholder="Title post"
         (keyup.enter)="createPost()"> 
+
+        <input class="form-control" [(ngModel)]="postText" placeholder="Text Post"
+        (keyup.enter)="createPost()"> 
+
+        <button class="btn" mat-raised-button 
+        (click)="createPost()" >Ajouter </button> 
+
     </div>
 
+<!-- 
+<div class="posts" *ngFor="let post of postList" ></div> -->
 
-<div class="posts" *ngFor="let post of postList" >
+    <mat-tab-group mat-align-tabs="start">
+        <ng-container *ngFor="let post of postList">
 
-    <p>{{post.title}} </p>
-    <p>{{post.text}}</p>
-    <div class="answer">
-        <input class="form-control" type="text" [(ngModel)]="messageName" placeholder="Add a message"
-        (keyup.enter)="createMessage()"> 
-    </div>
-    <div *ngIf="!!post.message">
-        <div *ngFor="let message of post.message">
-            <p> {{message.texte}}</p>
-        </div>
-    </div>
-
-    
-</div>  
+            <mat-tab label="{{post.title}}">
+                {{post.text}}
+                <div class="answer">
+                    <input class="form-control" type="text" [(ngModel)]="messageName" placeholder="Add a message"
+                    (keyup.enter)="createMessage()"> 
+                </div>
+               
+                <div *ngIf="!!post.message">
+                    <div *ngFor="let message of post.message">
+                        <mat-card>
+                            <p> {{message.texte}}</p>
+                        </mat-card>
+                    </div>
+                </div> 
+                
+            </mat-tab>
+        </ng-container>
+    </mat-tab-group>
