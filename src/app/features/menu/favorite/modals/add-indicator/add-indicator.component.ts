@@ -42,7 +42,7 @@ export class AddIndicatorComponent implements OnInit {
 
     this.loadCities();
 
-    this.loginService.connectedUserObs.subscribe(user => { this.connectedUser = user });
+    this.loginService.getFromUserSub().subscribe(user => { this.connectedUser = user });
 
     this.favoriteForm = this.formBuilder.group({
       township: ['', Validators.required],
@@ -89,15 +89,12 @@ export class AddIndicatorComponent implements OnInit {
         this.dunnoTownship = false;
         let fav: Favorite = new Favorite(this.favoriteForm.value);
         this.favoriteService.createFavorite(fav).subscribe(
-          // en cas de succès, redirection vers la page /d'acceuil
-         u => {
-            
-            console.log(u)
+         favorite => {
+            this.favoriteService.sendToFavoriteSub(favorite);
         },
-          // en cas d'erreur, affichage d'un message d'erreur
           err => console.log(err)
-  
-        );;
+
+        );
       } else {
         this.dunnoTownship = true
       }
