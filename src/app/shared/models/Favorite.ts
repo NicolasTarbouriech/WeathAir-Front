@@ -6,6 +6,7 @@ export class Favorite {
     duration: string;
     labelIndicator: string; 
     township: Township;
+    type?: string
 
     constructor(params: any) {
         Object.assign(this, params);

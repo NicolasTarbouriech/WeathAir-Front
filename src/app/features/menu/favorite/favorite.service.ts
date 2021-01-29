@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Favorite } from 'src/app/shared/models/Favorite';
 import { environment } from "src/environments/environment";
 
@@ -9,16 +9,25 @@ import { environment } from "src/environments/environment";
 })
 export class FavoriteService {
 
+  favoriteSubject = new Subject<Favorite>()
+
   constructor(private httpClient: HttpClient) { }
 
   /* It post the new custom indicator in database */
   createFavorite(myNewFavorite :Favorite) :Observable<Favorite> {
-    /* Fonctionne pas */
-    return this.httpClient.post<Favorite>(`${environment.api.BASE_URL}favorites`, myNewFavorite);
+    return this.httpClient.post<Favorite>(`${environment.api.BASE_URL}favorites`, myNewFavorite, {withCredentials : true});
   }
 
   /* Return all the custum indicators of the connected user */
   getAllFavoriteByConnectedUserId(connectedUserId :number) :Observable<Favorite[]> {
-    return this.httpClient.get<Favorite[]>(`https://demo6385207.mockable.io/favorites/user%3Fid=${connectedUserId}`);
+    return this.httpClient.get<Favorite[]>(`${environment.api.BASE_URL}favorites/user?id=${connectedUserId}`, {withCredentials : true});
+  }
+
+  sendToFavoriteSub(favorite :Favorite) {
+    this.favoriteSubject.next(favorite);
+  }
+
+  getFromFavoriteSub() {
+    return this.favoriteSubject.asObservable();
   }
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { CguComponent } from './features/authentication/cgu/cgu/cgu.component';
+import { DetailsComponent } from './features/menu/favorite/components/details/details/details.component';
 import { PostComponent } from './features/menu/forum/post/components/post/post.component';
 
 const routes: Routes = [
@@ -32,6 +33,10 @@ const routes: Routes = [
     path: 'favorite',
     loadChildren: () =>
       import('./features/menu/favorite/favorite.module').then(m => m.FavoriteModule)
+  },
+  {
+    path: 'details',
+    component : DetailsComponent
   },
   {
     path: 'home',
