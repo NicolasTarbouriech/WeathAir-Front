@@ -26,7 +26,7 @@ import { Topic } from "./topic.model";
         
         
         postTopic(topic: Topic): Observable<Topic>{
-            return this.http.post<Topic>(`${environment.api.BASE_URL}forum/topics`, topic);
+            return this.http.post<Topic>(`${environment.api.BASE_URL}forum/topics`, topic, {withCredentials : true});
           }
         
         putTopic(id : number, topic : Topic): Observable<Topic> {
