@@ -33,7 +33,7 @@ import { Topic } from "./topic.model";
             return this.http.put<Topic>(`${environment.api.BASE_URL}forum/topics/${id}`, topic);
         }
         
-        deleteTopic(id: number) : Observable<Topic> {
+        deleteTopic(id: number) : Observable<any> {
             return this.http.delete<Topic>(`${environment.api.BASE_URL}forum/topics/${id}`);
         }
 

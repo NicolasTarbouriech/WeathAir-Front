@@ -22,7 +22,8 @@
     <div class="topic" *ngFor="let topic of topicList">
         <div class="topicName">
            <a [routerLink]="['/', topic.id, 'posts']"  >{{topic.label}}</a>
-         
+           <button class="btn" mat-raised-button 
+           (click)="deleteTopic()" >Supprimer </button> 
         </div>  
         <div class="arrow">
             <img src="assets/icons/rightArrown.png" alt="Arrow Icon">
