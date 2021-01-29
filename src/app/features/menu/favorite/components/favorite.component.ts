@@ -8,6 +8,7 @@ import { LoginService } from 'src/app/features/authentication/login/core/login.s
 import { MatTableDataSource } from '@angular/material/table';
 import { Favorite } from 'src/app/shared/models/Favorite';
 import { ConnectedUserService } from 'src/app/shared/core/connected-user.service';
+import { DelIndicatorComponent } from '../modals/del-indicator/del-indicator.component';
 
 @Component({
   selector: 'app-favorite',
@@ -18,19 +19,20 @@ export class FavoriteComponent implements OnInit, OnDestroy {
 
 
   myFavorites = [];
-  displayedColumns: string[] = ['id','township', 'type', 'duration', 'labelIndicator', 'details', 'update', 'delete'];
+  displayedColumns: string[] = ['id', 'township', 'type', 'duration', 'labelIndicator', 'details', 'update', 'delete'];
   dataSource = new MatTableDataSource<Favorite>();
 
   connectedUser: ConnectedUser
 
-  success = false;
+  addSuccess = false;
+  delSuccess = false;
 
   constructor(
-    public dialog: MatDialog, 
+    public dialog: MatDialog,
     private favoriteService: FavoriteService,
     private ConnectedUserService: ConnectedUserService,
-    private router :Router    
-    ) {}
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.ConnectedUserService.findConnectedUser().then(user => {
@@ -43,20 +45,20 @@ export class FavoriteComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void { }
 
-  updateData(favorites :Favorite[]) {
+  updateData(favorites: Favorite[]) {
     favorites.forEach(fav => {
       switch (fav.labelIndicator) {
         case "temperature":
         case "windSpeed":
         case "windDeg":
         case "humidity":
-            fav.type = "Météorologique"
+          fav.type = "Météorologique"
           break;
         case "aqi":
         case "no2":
         case "o3":
         case "pm10":
-            fav.type = "Qualité de l'air"
+          fav.type = "Qualité de l'air"
           break;
       }
     })
@@ -72,19 +74,41 @@ export class FavoriteComponent implements OnInit, OnDestroy {
     )
   }
 
-  showDetails(idFav :number) {
-    this.router.navigate(['/details', {idFavorite : idFav}])
+  showDetails(idFav: number) {
+    this.router.navigate(['/details', { idFavorite: idFav }])
   }
 
-  openDialog() {
+  deleteFavorite(favToDel: Favorite) {
+    let dialogRef = this.dialog.open(DelIndicatorComponent, {
+      data: { favoriteToDel: favToDel },
+      width: '500px'
+    });
+
+    let index = this.dataSource.data.findIndex(element => element.id === favToDel.id);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'true') {
+        this.delSuccess = true
+        this.addSuccess = false
+        
+        if (index != -1) {
+          this.dataSource.data.splice(index, 1)
+          this.dataSource._updateChangeSubscription();
+        }
+      }
+    })
+  }
+
+  openDialogCreate() {
     let dialogRef = this.dialog.open(AddIndicatorComponent, {
-      data : {connectedUser : this.connectedUser},
-      width : '500px'
+      data: { connectedUser: this.connectedUser },
+      width: '500px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'true') {
-        this.success = true
+        this.addSuccess = true
+        this.delSuccess = false
       }
     })
   }
