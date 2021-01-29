@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FavoriteService } from '../../../favorite.service'
+import { Favorite } from '../../../../../../shared/models/Favorite'
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-details',
@@ -7,9 +11,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailsComponent implements OnInit {
 
-  constructor() { }
+  id: number;
+  favorite: Favorite;
+
+  constructor(private favoriteService: FavoriteService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.id = parseInt(this.route.snapshot.paramMap.get('idFav'));
+    this.favoriteService.getFavoriteById(this.id).subscribe(
+      res => {
+        console.log(res[0]);
+        this.favorite = res[0];
+      }, 
+      err => {
+        console.log(err);
+      }
+    )
   }
 
 }

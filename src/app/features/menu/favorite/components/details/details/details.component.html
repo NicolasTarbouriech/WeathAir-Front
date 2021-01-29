@@ -1,1 +1,9 @@
-<p>details works!</p>
+<div class="title">
+    Détails
+</div>
+<div class="title">
+    <ng-container *ngIf="!!favorite">
+        Indice de {{ favorite.labelIndicator | uppercase}} pour la dernière {{ favorite.duration }} à {{ favorite.township.name | titlecase }}
+    </ng-container>
+</div>
+    

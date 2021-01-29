@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { ActivatedRoute, Route } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { HomeStorageService } from '../../home/core/home-storage.service';
 
