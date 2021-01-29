@@ -1,7 +1,7 @@
 export class Message {
     id? : number;
     date_time : Date;
-    text : string;
+    texte : string;
     post_id : number;
   //  user_id : number;
 

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../../authentication/login/core/login.service';
@@ -10,6 +10,8 @@ import { RegisterService } from '../../../../authentication/register/core/regist
 import { Township } from 'src/app/shared/models/Township';
 import { isObject } from 'util';
 import { FavoriteService } from '../../favorite.service';
+import { ConnectedUserService } from 'src/app/shared/core/connected-user.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-indicator',
@@ -29,11 +31,9 @@ export class AddIndicatorComponent implements OnInit {
   options: Township[] = [];
   contentLoading: boolean = true;
 
-  connectedUser: ConnectedUser;
-
-  constructor(private router: Router,
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public dataConnectedUser :any,
     private formBuilder: FormBuilder,
-    private loginService: LoginService,
     private registerService: RegisterService,
     private changeDetectorRef: ChangeDetectorRef,
     private favoriteService: FavoriteService) { }
@@ -42,28 +42,13 @@ export class AddIndicatorComponent implements OnInit {
 
     this.loadCities();
 
-    this.loginService.getFromUserSub().subscribe(user => { this.connectedUser = user });
-
     this.favoriteForm = this.formBuilder.group({
       township: ['', Validators.required],
       labelIndicator: ['', Validators.required],
       duration: ['', Validators.required],
-      /* Mettre this.connectedUser a la place de 1 quand back réparé */
-      user: [{
-        "id": 1,
-        "pseudo": "Jean-Admin",
-        "email": "admin@admin.com",
-        "role": {
-          "id": 1,
-          "label": "ADMINISTRATOR"
-        },
-        "township": {
-          "inseeCode": "3007",
-          "name": "Alès",
-          "population": 40870
-        }
-      }, Validators.required]
+      user: [this.dataConnectedUser.connectedUser, Validators.required]
     });
+   
 
     this.filteredOptions = this.favoriteForm.get('township').valueChanges
       .pipe(

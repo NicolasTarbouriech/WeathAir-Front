@@ -23,6 +23,16 @@ export class FavoriteService {
     return this.httpClient.get<Favorite[]>(`${environment.api.BASE_URL}favorites/user?id=${connectedUserId}`, {withCredentials : true});
   }
 
+  /* Update a favorite by id */
+  updateFavoriteById(idFav : number) {
+    return this.httpClient.put<Favorite>(`${environment.api.BASE_URL}${idFav}`, {withCredentials : true})
+  }
+
+  /* Delete a favorite by id */
+  deleteFavoriteById(idFav : number) {
+    return this.httpClient.delete<Favorite>(`${environment.api.BASE_URL}${idFav}`, {withCredentials : true})
+  }
+
   sendToFavoriteSub(favorite :Favorite) {
     this.favoriteSubject.next(favorite);
   }

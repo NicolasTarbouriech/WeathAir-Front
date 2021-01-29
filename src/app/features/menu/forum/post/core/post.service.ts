@@ -17,45 +17,46 @@ import { Post } from "./post.models";
   
     constructor(private http: HttpClient, private _router: Router) {}
 
-        getAllPosts(): Observable<Post[]> {
-            return this.http.get<Post[]>(`${environment.api.BASE_URL}forum/topics/posts`);
+        getAllPostsByTopic(topic_id : number): Observable<Post[]> {
+            return this.http.get<Post[]>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts`, { withCredentials : true });
           }
         
-        getPostById(id:number): Observable<Post[]> {
-            return this.http.get<Post[]>(`${environment.api.BASE_URL}forum/topics/${id}/posts`);
+        getPostsDetails(topic_id : number, post_id : number): Observable<Post[]> {
+            return this.http.get<Post[]>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}`);
           }
         
         
-        postPost( post: Post): Observable<Post>{
-            return this.http.post<Post>(`${environment.api.BASE_URL}forum/topics/posts`, post);
+        postPost( topic_id : number, post : Post): Observable<Post>{
+            return this.http.post<Post>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts`, post, { withCredentials : true });
           }
         
-        putTopic(id : number, post : Post): Observable<Post> {
-            return this.http.put<Post>(`${environment.api.BASE_URL}forum/topics/${id}/posts`, post);
+        putTopic(topic_id : number, post_id : number, post : Post): Observable<Post> {
+            return this.http.put<Post>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}`, post, { withCredentials : true });
         }
         
-        deletePost(id: number) : Observable<Post> {
-            return this.http.delete<Post>(`${environment.api.BASE_URL}forum/topics/${id}/posts`);
+        deletePost(topic_id : number, post_id : number) : Observable<Post> {
+            return this.http.delete<Post>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}`, { withCredentials : true });
         }
 
-        getAllMessages(): Observable<Message[]> {
-          return this.http.get<Message[]>(`${environment.api.BASE_URL}forum/topics/messages`);
+        getAllMessagesByPost(topic_id : number, post_id:number): Observable<Message[]> {
+          return this.http.get<Message[]>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}/messages`, { withCredentials : true });
+          
         }
       
-      getTopicByMessage(id:number): Observable<Message> {
-          return this.http.get<Message>(`${environment.api.BASE_URL}forum/topics/messages/${id}`);
+      getMessageDetails(topic_id : number, post_id:number, message_id : number): Observable<Message> {
+          return this.http.get<Message>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}/messages/${message_id}`);
         }
       
-        postMessage(topic: Message): Observable<Message>{
-          return this.http.post<Message>(`${environment.api.BASE_URL}forum/topics/messages`, topic);
+        postMessage(topic_id: number, post_id : number, message : Message): Observable<Message>{
+          return this.http.post<Message>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}/messages`, message, {withCredentials : true});
         }
         
-        putMessage(id : number, topic : Message): Observable<Message> {
-          return this.http.put<Message>(`${environment.api.BASE_URL}forum/topics/messages/${id}`, topic);
+        putMessage(topic_id: number, post_id : number, message_id : number, message : Message): Observable<Message> {
+          return this.http.put<Message>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}/messages/${message_id}`, message, {withCredentials : true} );
       }
       
-      deleteMessage(id: number) : Observable<Message> {
-          return this.http.delete<Message>(`${environment.api.BASE_URL}forum/topics/messages/${id}`);
+      deleteMessage(topic_id: number, post_id : number, message_id : number) : Observable<Message> {
+          return this.http.delete<Message>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}/messages/${message_id}`, {withCredentials : true} );
       }
          
     }

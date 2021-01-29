@@ -21,19 +21,13 @@ export class ForumComponent implements OnInit {
   addTopic:number;
   searchForm : FormGroup;
   errorInForm : boolean;
-  constructor(private topicService: TopicService,private router:Router,  private homeStorageService: HomeStorageService) { }
+  constructor(private topicService: TopicService,private router:Router,
+      private homeStorageService: HomeStorageService) {
+        this.showTopic();
+       }
 
   ngOnInit(): void {
     this.printTopicForm;
-    this.topicService.getAllTopics().subscribe( result => {
-      this.topicList = result;
-      console.log(result);
-    }, err => {
-      console.log(err)
-    })
-
-    this.showTopic();
-
   }
 
   printTopicToTrue(){
@@ -48,21 +42,22 @@ export class ForumComponent implements OnInit {
    createTopic(){
     var topic = new Topic({"label": this.topicName});
     this.topicService.postTopic(topic).subscribe(
-      // data => this.topicList.push(data),
-      err => console.log(err)
+      data =>{ this.topicList.push(data) },
+      err => {
+        console.log(err)
+      }
     );
     this.printTopicForm = false;    
   }
 
-  
+
   showTopic() {
-    return this.topicService.getAllTopics().subscribe( 
-      topics => {
-        console.log(topics);  
-      },
-      err => {
-        console.log(err);
-      })
+    return this.topicService.getAllTopics().subscribe( result => {
+      this.topicList = result;
+      console.log(result);
+    }, err => {
+      console.log(err)
+    })
   }
 
   // btnClick () {
