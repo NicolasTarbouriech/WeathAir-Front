@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { findIndex } from 'rxjs/operators';
 import { Message } from '../../core/message.models';
 import { Post } from '../../core/Post.models';
 import { PostService } from '../../core/post.service';
@@ -28,11 +29,9 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     this.printPostForm;
     this.topic_id = parseInt(this.route.snapshot.paramMap.get("id"));
-    this.post_id = parseInt(this.route.snapshot.paramMap.get("id"));
     console.log(this.topic_id);
     console.log(this.post_id);
       this.showPostById();
-      this.showMessageById();
   }
 
   printPostToTrue(){
@@ -43,18 +42,23 @@ export class PostComponent implements OnInit {
   return this.postService.getAllPostsByTopic(this.topic_id)
       .subscribe(result => {
             this.postList = result;
-            console.log(result);
+            const postIds = result.map(element => element.id);
+            console.log(postIds); 
+           postIds.forEach(element => {
+             this.showMessageById(element);
+
+           })
         },
         error => {
           console.log(error);
         });
   }
 
-  showMessageById() {
-    return this.postService.getAllMessages(this.topic_id, this.post_id)
+  showMessageById(postId: number) {
+    return this.postService.getAllMessagesByPost(this.topic_id, postId)
         .subscribe(result => {
-              this.messageList = result;
-              console.log(result);
+              const postIndex = this.postList.findIndex(element => element.id === postId);
+              this.postList[postIndex].message = result;
           },
           error => {
             console.log(error);

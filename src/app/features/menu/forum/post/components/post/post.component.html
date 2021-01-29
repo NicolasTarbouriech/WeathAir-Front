@@ -19,16 +19,17 @@
 
 <div class="posts" *ngFor="let post of postList" >
 
-    <p>{{post.title}}</p>
+    <p>{{post.title}} </p>
     <p>{{post.text}}</p>
     <div class="answer">
         <input class="form-control" type="text" [(ngModel)]="messageName" placeholder="Add a message"
         (keyup.enter)="createMessage()"> 
     </div>
-    <div class="message" *ngFor="let message of post.message">
-        {{message.text}}
+    <div *ngIf="!!post.message">
+        <div *ngFor="let message of post.message">
+            <p> {{message.texte}}</p>
+        </div>
     </div>
-   
 
     
 </div>  

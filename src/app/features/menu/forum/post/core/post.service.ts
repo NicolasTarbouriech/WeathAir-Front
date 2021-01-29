@@ -18,7 +18,7 @@ import { Post } from "./post.models";
     constructor(private http: HttpClient, private _router: Router) {}
 
         getAllPostsByTopic(topic_id : number): Observable<Post[]> {
-            return this.http.get<Post[]>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts`);
+            return this.http.get<Post[]>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts`, { withCredentials : true });
           }
         
         getPostsDetails(topic_id : number, post_id : number): Observable<Post[]> {
@@ -38,11 +38,12 @@ import { Post } from "./post.models";
             return this.http.delete<Post>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}`, { withCredentials : true });
         }
 
-        getAllMessages(topic_id : number, post_id:number): Observable<Message[]> {
-          return this.http.get<Message[]>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}/messages`);
+        getAllMessagesByPost(topic_id : number, post_id:number): Observable<Message[]> {
+          return this.http.get<Message[]>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}/messages`, { withCredentials : true });
+          
         }
       
-      getMessageById(topic_id : number, post_id:number, message_id : number): Observable<Message> {
+      getMessageDetails(topic_id : number, post_id:number, message_id : number): Observable<Message> {
           return this.http.get<Message>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}/messages/${message_id}`);
         }
       
