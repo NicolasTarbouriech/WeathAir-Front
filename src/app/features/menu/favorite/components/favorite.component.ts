@@ -6,6 +6,7 @@ import { FavoriteService } from '../favorite.service';
 import { ConnectedUser } from 'src/app/shared/models/ConnectedUser';
 import { LoginService } from 'src/app/features/authentication/login/core/login.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { Favorite } from 'src/app/shared/models/Favorite';
 
 @Component({
   selector: 'app-favorite',
@@ -13,40 +14,80 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./favorite.component.scss']
 })
 export class FavoriteComponent implements OnInit, OnDestroy {
- 
-  
-  myFavorites = [];
-  displayedColumns: string[] = ['township', 'type', 'duration', 'labelIndicator'];
-  dataSource = new MatTableDataSource(this.myFavorites);
-  /* Supprimmer le = quand back réparé */
-  connectedUser: ConnectedUser = new ConnectedUser({
-    email: "admin@admin.com",
-    id: 1,
-    pseudo: "Jean-Admin",
-    role: { id: 1, label: "ADMINISTRATOR" },
-    township: { inseeCode: "3007", name: "Alès", population: 40870 }
-  })
 
-  constructor(public dialog: MatDialog, private favoriteService: FavoriteService, private loginService: LoginService) {
+
+  myFavorites = [];
+  displayedColumns: string[] = ['id','township', 'type', 'duration', 'labelIndicator', 'details', 'update', 'delete'];
+  dataSource = new MatTableDataSource<Favorite>();
+  connectedUser: ConnectedUser;
+
+  constructor(
+    public dialog: MatDialog, 
+    private favoriteService: FavoriteService, 
+    private loginService: LoginService,
+    private router :Router    
+    ) {
+
   }
 
   ngOnInit(): void {
-    /* Décommenté quand back réparer */
-    /* this.loginService.connectedUserObs.subscribe(user => { this.connectedUser = user }); */
-    
-    this.favoriteService.getAllFavoriteByConnectedUserId(this.connectedUser.id).subscribe(
-      favorites => {
-        this.myFavorites = favorites
-        
-        this.dataSource =  new MatTableDataSource(this.myFavorites);
 
+    this.loginService.getFromUserSub().subscribe(
+      user => {
+        if (!user.id) {
+          this.loginService.getMe().subscribe(user => {
+            this.favoriteService.getAllFavoriteByConnectedUserId(user.id).subscribe(
+              favorites => {
+                favorites.forEach(fav=> this.favoriteService.sendToFavoriteSub(fav))
+              },
+              err => console.log(err)
+            );
+          })
+        } else {
+          this.favoriteService.getAllFavoriteByConnectedUserId(user.id).subscribe(
+            favorites => {
+              favorites.forEach(fav=> this.favoriteService.sendToFavoriteSub(fav))
+            },
+            err => console.log(err)
+          );
+        }
       },
       err => console.log(err)
     );
-   
+
+    this.favoriteService.getFromFavoriteSub().subscribe(
+      favoritesArray => {
+        this.myFavorites.push(favoritesArray);
+        this.updateData(this.myFavorites);
+      }
+    )
   }
 
   ngOnDestroy(): void { }
+
+  updateData(favorites :Favorite[]) {
+    favorites.forEach(fav => {
+      switch (fav.labelIndicator) {
+        case "temperature":
+        case "windSpeed":
+        case "windDeg":
+        case "humidity":
+            fav.type = "Météorologique"
+          break;
+        case "aqi":
+        case "no2":
+        case "o3":
+        case "pm10":
+            fav.type = "Qualité de l'air"
+          break;
+      }
+    })
+    this.dataSource.data = favorites as Favorite[];
+  }
+
+  showDetails(idFav :number) {
+    this.router.navigate(['/details', {idFavorite : idFav}])
+  }
 
   openDialog() {
     let dialogRef = this.dialog.open(AddIndicatorComponent, {
