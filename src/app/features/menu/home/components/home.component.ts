@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { LoginService } from 'src/app/features/authentication/login/core/login.service';
@@ -26,8 +26,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   };
 
   constructor(private formBuilder: FormBuilder, private router: Router, 
-    private homeStorageService: HomeStorageService, private changeDetectorRef: ChangeDetectorRef) {
-    
+    private homeStorageService: HomeStorageService, private changeDetectorRef: ChangeDetectorRef, 
+    private activatedRoute: ActivatedRoute) {
+      this.activatedRoute.paramMap.subscribe(params => this.ngOnInit());
   }
 
   ngOnInit(): void { 
@@ -64,6 +65,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     
   }
 
+  markerClick (townshipName: string) {
+      this.errorInForm = false;
+      this.homeStorageService.setTownship(townshipName);
+      this.router.navigate(['/indicators', {township: townshipName}]);
+  }
+
   displayFn(township: any): string {
     return township && township.name ? township.name : '';
   }
@@ -90,7 +97,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     return this.homeStorageService.getGpsCoordinates().subscribe(
       result => {
         this.coordinatesList = result;
-        console.log(this.coordinatesList);
       }, err => {
         console.log(err)
       }
