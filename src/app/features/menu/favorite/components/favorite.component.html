@@ -1,5 +1,9 @@
 <h1 class="title">Mes indicateurs</h1>
 
+<div *ngIf="success" class="alert alert-success">
+  Votre nouvel indicateur a été ajouté avec succès ! ❤️
+</div>
+
 <div *ngIf="myFavorites.length<1" class="containerNoIndicators">
   <div class="noIndicatorsText">
     <h1 class="t1">Vous n'avez pas encore d'indicateurs personnalisés ..</h1>

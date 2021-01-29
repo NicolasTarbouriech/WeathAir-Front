@@ -7,6 +7,7 @@ import { ConnectedUser } from 'src/app/shared/models/ConnectedUser';
 import { LoginService } from 'src/app/features/authentication/login/core/login.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Favorite } from 'src/app/shared/models/Favorite';
+import { ConnectedUserService } from 'src/app/shared/core/connected-user.service';
 
 @Component({
   selector: 'app-favorite',
@@ -19,48 +20,25 @@ export class FavoriteComponent implements OnInit, OnDestroy {
   myFavorites = [];
   displayedColumns: string[] = ['id','township', 'type', 'duration', 'labelIndicator', 'details', 'update', 'delete'];
   dataSource = new MatTableDataSource<Favorite>();
-  connectedUser: ConnectedUser;
+
+  connectedUser: ConnectedUser
+
+  success = false;
 
   constructor(
     public dialog: MatDialog, 
-    private favoriteService: FavoriteService, 
-    private loginService: LoginService,
+    private favoriteService: FavoriteService,
+    private ConnectedUserService: ConnectedUserService,
     private router :Router    
-    ) {
-
-  }
+    ) {}
 
   ngOnInit(): void {
+    this.ConnectedUserService.findConnectedUser().then(user => {
+      this.connectedUser = user;
+      this.ConnectedUserService.chargeFav(user);
+    })
 
-    this.loginService.getFromUserSub().subscribe(
-      user => {
-        if (!user.id) {
-          this.loginService.getMe().subscribe(user => {
-            this.favoriteService.getAllFavoriteByConnectedUserId(user.id).subscribe(
-              favorites => {
-                favorites.forEach(fav=> this.favoriteService.sendToFavoriteSub(fav))
-              },
-              err => console.log(err)
-            );
-          })
-        } else {
-          this.favoriteService.getAllFavoriteByConnectedUserId(user.id).subscribe(
-            favorites => {
-              favorites.forEach(fav=> this.favoriteService.sendToFavoriteSub(fav))
-            },
-            err => console.log(err)
-          );
-        }
-      },
-      err => console.log(err)
-    );
-
-    this.favoriteService.getFromFavoriteSub().subscribe(
-      favoritesArray => {
-        this.myFavorites.push(favoritesArray);
-        this.updateData(this.myFavorites);
-      }
-    )
+    this.getMyFavorites()
   }
 
   ngOnDestroy(): void { }
@@ -82,7 +60,16 @@ export class FavoriteComponent implements OnInit, OnDestroy {
           break;
       }
     })
-    this.dataSource.data = favorites as Favorite[];
+    this.dataSource.data = favorites.reverse() as Favorite[];
+  }
+
+  getMyFavorites() {
+    this.favoriteService.getFromFavoriteSub().subscribe(
+      favoritesArray => {
+        this.myFavorites.push(favoritesArray);
+        this.updateData(this.myFavorites);
+      }
+    )
   }
 
   showDetails(idFav :number) {
@@ -91,11 +78,14 @@ export class FavoriteComponent implements OnInit, OnDestroy {
 
   openDialog() {
     let dialogRef = this.dialog.open(AddIndicatorComponent, {
-      width: '500px'
+      data : {connectedUser : this.connectedUser},
+      width : '500px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`)
+      if (result === 'true') {
+        this.success = true
+      }
     })
   }
 
