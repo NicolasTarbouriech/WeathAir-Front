@@ -5,9 +5,10 @@ import { SharedModule } from '../../../shared/shared.module';
 import { FavoriteRoutingModule } from "./favorite-routing.module";
 import { MatAutocomplete, MatAutocompleteModule } from "@angular/material/autocomplete";
 import { AddIndicatorComponent } from "./modals/add-indicator/add-indicator.component";
+import { DetailsComponent } from './components/details/details/details.component';
 
 @NgModule({
-    declarations: [FavoriteComponent, AddIndicatorComponent],
+    declarations: [FavoriteComponent, AddIndicatorComponent, DetailsComponent],
     imports: [
         CommonModule,
         FavoriteRoutingModule, 

@@ -19,8 +19,7 @@
 
     <div class="maps-container">
         <google-map width="100%" [zoom]="7" [center]="center">
-            <map-marker *ngFor="let marker of coordinatesList" [position]="marker" ></map-marker>
-            <!-- <map-marker [position]="coordinate" ></map-marker> -->
+            <map-marker *ngFor="let marker of coordinatesList" [position]="marker" (mapClick)="markerClick(marker.township.name)"></map-marker>
         </google-map>
     </div>
 </ng-container>

@@ -6,6 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { LoginService } from '../core/login.service'
 import { HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { ConnectedUser } from 'src/app/shared/models/ConnectedUser';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,8 @@ import { environment } from 'src/environments/environment';
 export class LoginComponent implements OnInit {
 
   user: User = new User({});
+
+  connectedUser : ConnectedUser;
 
   emailValidationRegEx = '^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*([-]{1})?@[a-z0-9]+([\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$';
   checked = false;
@@ -59,9 +62,17 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value)
       .subscribe(
         // en cas de succès, redirection vers la page /d'acceuil
-        u => {
+        /* u => {
+          this.router.navigate([`/home`]); */
+       /*  }, */
+       () => this.loginService.getMe().subscribe(
+         user => {
+          this.connectedUser = user;
+          this.loginService.sendToUserSub(user);
           this.router.navigate([`/home`]);
-        },
+         },
+         err => console.log(err)
+       ),
         // en cas d'erreur, affichage d'un message d'erreur
         err => this.err = true
       );

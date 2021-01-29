@@ -15,21 +15,13 @@ const USER_ANONYM = new ConnectedUser({});
   providedIn: 'root'
 })
 export class LoginService {
-  private userConnectedSub: BehaviorSubject<ConnectedUser> = new BehaviorSubject(USER_ANONYM);
+  private userConnectedSub: BehaviorSubject<ConnectedUser> = new BehaviorSubject<ConnectedUser>(USER_ANONYM);
 
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private loggedUser: string;
 
   constructor(private httpClient: HttpClient) {
-  }
-
-
-
-
-
-  get connectedUserObs(): Observable<ConnectedUser> {
-    return this.userConnectedSub.asObservable();
   }
 
   /**
@@ -40,7 +32,7 @@ export class LoginService {
    */
   verifierAuthentification(): Observable<ConnectedUser> {
     return this.userConnectedSub.getValue().notConnected() ?
-      this.httpClient.get<ConnectedUser>(`${environment.api.BASE_URL}users/me`)
+      this.httpClient.get<ConnectedUser>(`${environment.api.BASE_URL}users/me`, {withCredentials : true})
         .pipe(
           map(userServer => new ConnectedUser(userServer)),
           tap(user => this.userConnectedSub.next(user)),
@@ -54,18 +46,14 @@ export class LoginService {
    * Le serveur provoque la création du cookie AUTH-TOKEN.
    *
    */
-  login(email: string, password: string): Observable<any> {
+  login(email: string, password: string)  {
     let connect = { username : email, password : password};
   
     return this.httpClient.post(`${environment.api.BASE_URL}login`, connect, {withCredentials: true})
-      .pipe(
-        map(userServeur => new User(userServeur)),
-        tap(user => this.userConnectedSub.next(user))
-      );
   }
 
-  getMe() :Observable<Object> {
-    return this.httpClient.get(`${environment.api.BASE_URL}users/me`, {withCredentials: true})
+  getMe() :Observable<ConnectedUser> {
+    return this.httpClient.get<ConnectedUser>(`${environment.api.BASE_URL}users/me`, {withCredentials: true})
   }
 
   /**
@@ -82,5 +70,13 @@ export class LoginService {
           this.userConnectedSub.next(null);})
       );
 
+  }
+  
+  sendToUserSub(connectedUser :ConnectedUser) {
+    this.userConnectedSub.next(connectedUser);
+  }
+
+  getFromUserSub(): Observable<ConnectedUser>{
+    return this.userConnectedSub.asObservable();
   }
 }
