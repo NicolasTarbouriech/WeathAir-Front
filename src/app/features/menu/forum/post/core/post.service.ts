@@ -49,6 +49,7 @@ import { Post } from "./post.models";
         }
       
         postMessage(topic_id: number, post_id : number, message : Message): Observable<Message>{
+          message.postId = post_id;
           return this.http.post<Message>(`${environment.api.BASE_URL}forum/topics/${topic_id}/posts/${post_id}/messages`, message, {withCredentials : true});
         }
         

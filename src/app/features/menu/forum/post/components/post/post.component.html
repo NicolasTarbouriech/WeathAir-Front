@@ -1,29 +1,24 @@
 <div class="row">
-    <button class="btn" mat-raised-button 
-    (click)="printPostToTrue()" >Ajouter un Post : </button> 
-
-    <button class="btn" mat-raised-button 
-    [routerLink]="'/forum'" >Retour aux Topics </button> 
+    <div class="addpost">
+        <div class="row">
+            <button class="btn" mat-raised-button 
+            (click)="printPostToTrue()" >Ajouter un Post : </button> 
+        </div>
+        <div class="row">
+            <button class="btn" mat-raised-button 
+            [routerLink]="'/forum'" >Retour aux Topics </button> 
+    </div>
 </div>
-
-
     <div class="input-group mb-3" *ngIf="printPostForm" >
         <div class="input-group-prepend">
             <div class="input-group-text">Nouveau Post : </div>
         </div>
-
-     
-       
-
         <input class="form-control" [(ngModel)]="postTitle" placeholder="Title post"
         (keyup.enter)="createPost()"> 
-
         <input class="form-control" [(ngModel)]="postText" placeholder="Text Post"
         (keyup.enter)="createPost()"> 
-
         <button class="btn" mat-raised-button 
         (click)="createPost()" >Ajouter </button> 
-
     </div>
 
 <!-- 
@@ -31,22 +26,25 @@
 
     <mat-tab-group mat-align-tabs="start">
         <ng-container *ngFor="let post of postList">
-
-            <mat-tab label="{{post.title}}">
+            
+            <mat-tab  class="title" label="{{post.title}}">
+                <div class="textePost">
                 {{post.text}}
+                </div>
                 <div class="answer">
-                    <input class="form-control" type="text" [(ngModel)]="messageName" placeholder="Add a message"
-                    (keyup.enter)="createMessage()"> 
+                    <input class="form-control" [(ngModel)]="messageText" placeholder="Add a message"
+                    (keyup.enter)="createMessage(post.id)"> 
                 </div>
                
                 <div *ngIf="!!post.message">
+                   
                     <div *ngFor="let message of post.message">
                         <mat-card>
-                            <p> {{message.texte}}</p>
+                            <p> {{message.text}}</p>
+                           <p> Ce message a été posté le : {{ message.date_time | date:'short'}}</p> 
                         </mat-card>
                     </div>
                 </div> 
-                
             </mat-tab>
         </ng-container>
     </mat-tab-group>
