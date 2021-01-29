@@ -22,7 +22,7 @@ export class RegisterService {
 
   register(pseudo : string, email: string, password: string , township : Township): Observable<User> {
     const connect = { email : email, password : password, pseudo : pseudo, township : township};
-   return this.httpClient.post<User>(`${environment.api.BASE_URL}users`, connect);
+   return this.httpClient.post<User>(`${environment.api.BASE_URL}users`, connect, {withCredentials: true});
   }
 
   getTownships() : Observable<Township[]>{

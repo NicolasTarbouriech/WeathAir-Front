@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { filter } from 'rxjs/operators';
+import { HomeStorageService } from '../../../home/core/home-storage.service';
 import { IndicatorService } from '../../core/indicator-service';
 
 @Component({
@@ -15,21 +17,21 @@ export class MeteoIndicatorComponent implements OnInit, OnDestroy {
   icon: string;
   descriptionFR: string;
 
-  constructor(private indicatorService: IndicatorService) {
+  constructor(private indicatorService: IndicatorService, private homeStorageService: HomeStorageService) {
   }
 
   ngOnInit(): void {
-    this.indicatorService.retrieveMeteoIndicator(this.township).subscribe(
+    this.updateData(this.township);
+    this.homeStorageService.getTownshipStream().pipe(filter(elem => {
+      return !!elem;
+    })).subscribe(
       res => {
-        this.description = res[0].description;
-        this.temperature = res[0].temperature;
-        this.getIcon();
-        this.getDescritptionFR();
+        this.updateData(res);
       }, 
       err => {
-        console.log(err)
-      }
-    );
+        console.log(err);
+      });
+      
   }
 
   ngOnDestroy(): void {}
@@ -37,7 +39,7 @@ export class MeteoIndicatorComponent implements OnInit, OnDestroy {
   getIcon(){
     if (this.description === 'clear sky') {
       this.icon = 'assets/meteo-signs/1-sunny_day.png';
-    } else if (this.description === 'few clouds' || this.description === 'scattered clouds' || this.description === 'broken clouds') {
+    } else if (this.description === 'few clouds' || this.description === 'scattered clouds' || this.description === 'broken clouds' || this.description === 'overcast clouds' || this.description === 'few clouds' || this.description === 'mist') {
       this.icon = 'assets/meteo-signs/2-partly_cloudy_day.png';
     } else if (this.description === 'rain') {
       this.icon = 'assets/meteo-signs/3-rain_sunny_day.png';
@@ -55,7 +57,7 @@ export class MeteoIndicatorComponent implements OnInit, OnDestroy {
   getDescritptionFR(){
     if (this.description === 'clear sky') {
       this.descriptionFR = 'Ensoleillé';
-    } else if (this.description === 'few clouds' || this.description === 'scattered clouds' || this.description === 'broken clouds') {
+    } else if (this.description === 'few clouds' || this.description === 'scattered clouds' || this.description === 'broken clouds' || this.description === 'overcast clouds' || this.description === 'few clouds' || this.description === 'mist') {
       this.descriptionFR = 'Quelques nuages';
     } else if (this.description === 'rain') {
       this.descriptionFR = 'Pluie légère';
@@ -68,6 +70,20 @@ export class MeteoIndicatorComponent implements OnInit, OnDestroy {
     } else {
       this.descriptionFR = 'Neige';
     }
+  }
+
+  updateData(townshipName: string){
+    this.indicatorService.retrieveMeteoIndicator(townshipName).subscribe(
+      res => {
+        this.description = res[0].description;
+        this.temperature = res[0].temperature;
+        this.getIcon();
+        this.getDescritptionFR();
+      }, 
+      err => {
+        console.log(err)
+      }
+    );
   }
 
 }
