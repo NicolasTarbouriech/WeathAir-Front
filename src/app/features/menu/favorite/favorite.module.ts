@@ -3,9 +3,10 @@ import { NgModule } from "@angular/core";
 import { FavoriteComponent } from "./components/favorite.component";
 import { SharedModule } from '../../../shared/shared.module';
 import { FavoriteRoutingModule } from "./favorite-routing.module";
-import { MatAutocomplete, MatAutocompleteModule } from "@angular/material/autocomplete";
 import { AddIndicatorComponent } from "./modals/add-indicator/add-indicator.component";
 import { DetailsComponent } from './components/details/details/details.component';
+import { NgxEchartsModule } from "ngx-echarts";
+import * as echarts from 'echarts';
 import { DelIndicatorComponent } from './modals/del-indicator/del-indicator.component';
 
 @NgModule({
@@ -13,7 +14,8 @@ import { DelIndicatorComponent } from './modals/del-indicator/del-indicator.comp
     imports: [
         CommonModule,
         FavoriteRoutingModule, 
-        SharedModule
+        SharedModule, 
+        NgxEchartsModule.forRoot({echarts})
     ]
   })
   export class FavoriteModule { }

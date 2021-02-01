@@ -41,4 +41,8 @@ export class FavoriteService {
   getFromFavoriteSub() {
     return this.favoriteSubject.asObservable();
   }
+
+  getFavoriteById(id: number){
+    return this.httpClient.get<Favorite>(`${environment.api.BASE_URL}favorites?id=${id}`, {withCredentials : true});
+  }
 }

@@ -13,6 +13,9 @@ import { HomeComponent } from './features/menu/home/components/home.component';
 import { HomeModule } from './features/menu/home/home.module';
 import { AddIndicatorComponent } from './features/menu/favorite/modals/add-indicator/add-indicator.component';
 import { CguComponent } from './features/authentication/cgu/cgu/cgu.component';
+import { NgxEchartsModule } from "ngx-echarts";
+import * as echarts from 'echarts';
+
 
 @NgModule({
   declarations: [
@@ -28,6 +31,7 @@ import { CguComponent } from './features/authentication/cgu/cgu/cgu.component';
 
     SharedModule,
     HomeModule,
+    NgxEchartsModule.forRoot({echarts}),
 
     environment.production
       ? []
