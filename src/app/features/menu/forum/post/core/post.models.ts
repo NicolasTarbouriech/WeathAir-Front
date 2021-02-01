@@ -5,9 +5,9 @@ export class Post {
     date_time : Date;
     text : string;
     title : string;
-    topic_id : number;
+    topicId : number;
     message : Message[];
-  //  user_id: number;
+    userId?: number;
 
   constructor(params:any) {
     Object.assign(this, params);
