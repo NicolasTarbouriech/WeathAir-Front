@@ -35,7 +35,7 @@
 
     input {
         margin-left: 10px;
-        width: 250px;
+        width: 100%;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
         
@@ -58,6 +58,7 @@ input:focus {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease-in-out;
+    width: 90%;
 
     .plus {
         display: flex;
