@@ -32,6 +32,8 @@ export class ForumComponent implements OnInit {
 
   printTopicToTrue(){
     this.printTopicForm = true;
+    var element = document.getElementById("inputPlus");
+    element.classList.add("afterClick");
   }
 
   printSubject(id:number) {
@@ -47,7 +49,9 @@ export class ForumComponent implements OnInit {
         console.log(err)
       }
     );
-    this.printTopicForm = false;    
+    this.printTopicForm = false;   
+    var element = document.getElementById("inputPlus");
+    element.classList.remove("afterClick"); 
   }
 
 

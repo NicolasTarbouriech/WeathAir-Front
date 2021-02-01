@@ -1,3 +1,7 @@
+* {
+    font-family: "Poppins";
+}
+
 .title {
     text-align : center;
     font-size: 50px;
@@ -12,11 +16,67 @@
     letter-spacing: 3px;
 }
 
-
-.containerTopics {
+.containerTopics, .forum-page {
     width: 60%;
     margin: auto;
-    margin-top: 100px;
+}
+
+.forum-page{
+    margin-top: 50px;
+}
+
+.newTopic {
+    display: flex;
+    padding: 10px;
+
+    .btn {
+        background-color: #fff;
+    }
+
+    input {
+        margin-left: 10px;
+        width: 250px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        
+    }
+}
+
+input:focus {
+    outline: 0px !important;
+    box-shadow: none !important;
+}
+
+.afterClick{
+    opacity: 1 !important;
+    pointer-events: all !important;
+}
+
+.inputPlus {
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+
+    .plus {
+        display: flex;
+        align-items: center;
+        background-color: #1d6475;
+        color: white;
+        height: 100%;
+        width: 35px;
+        justify-content: center;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        cursor: pointer;
+    }
+
+    p {
+        margin: 0;
+        font-size: 20px;
+    }
+    
 }
 
 .topic {
