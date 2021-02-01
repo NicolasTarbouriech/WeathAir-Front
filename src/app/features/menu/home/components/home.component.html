@@ -6,7 +6,7 @@
     <div class="home-card">
         <form class="form-container">
             <label>Commune :</label>
-            <input type="text" class="form-control search-form" [formControl]="searchForm.controls.township" [matAutocomplete]="auto">
+            <input type="text" class="form-control search-form" placeholder="Ex: Montpellier" [formControl]="searchForm.controls.township" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                 <mat-option *ngFor="let townshipDB of filteredOptions | async" [value]="townshipDB">
                   {{townshipDB.name}}

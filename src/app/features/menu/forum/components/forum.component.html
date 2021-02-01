@@ -6,24 +6,24 @@
 </div>
 
 <div class="forum-page">
-    <button class="btn" mat-raised-button (click)="printTopicToTrue()">Ajouter un topic</button>
-
-    <div class="input-group mb-3" *ngIf="printTopicForm">
-        <div class="input-group-prepend">
-            <div class="input-group-text">Nouveau topic : </div>
+    <div class="newTopic">
+        <button class="btn" mat-raised-button (click)="printTopicToTrue()">Ajouter un topic</button>
+        <div id="inputPlus" class="inputPlus">
+            <input class="form-control" type="text" [(ngModel)]="topicName"
+                placeholder="Titre du nouveau Topic .." (keyup.enter)="createTopic()">
+            <div class="plus" (click)="createTopic()">
+                <p>+</p>
+            </div>
         </div>
-        <input class="form-control" type="text" [(ngModel)]="topicName" placeholder="Add a topic"
-            (keyup.enter)="createTopic()">
     </div>
-</div> 
+</div>
 
 
 <div class="containerTopics" *ngIf="topicList">
-    <div class="topic" *ngFor="let topic of topicList">
+    <div [routerLink]="['/', topic.id, 'posts']" class="topic" *ngFor="let topic of topicList">
         <div class="topicName">
-           <a [routerLink]="['/', topic.id, 'posts']"  >{{topic.label}}</a>
-         
-        </div>  
+            <p>{{topic.label}}</p>
+        </div>
         <div class="arrow">
             <img src="assets/icons/rightArrown.png" alt="Arrow Icon">
         </div>

@@ -1,5 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
+@font-face {
+    font-family: "Poppins";
+    src: local("Poppins"), url(assets/fonts/poppins/Poppins-Regular.ttf) format("truetype");
+}
+
 html,
 body {
     height: 100%;
@@ -7,7 +12,7 @@ body {
 
 body {
     margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Poppins, "Helvetica Neue", sans-serif;
 }
 
 @import "~bootstrap/dist/css/bootstrap.css"

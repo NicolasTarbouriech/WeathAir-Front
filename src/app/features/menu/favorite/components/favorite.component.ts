@@ -19,7 +19,7 @@ export class FavoriteComponent implements OnInit, OnDestroy {
 
 
   myFavorites = [];
-  displayedColumns: string[] = ['id', 'township', 'type', 'duration', 'labelIndicator', 'details', 'update', 'delete'];
+  displayedColumns: string[] = ['township', 'type', 'duration', 'labelIndicator', 'details', 'update', 'delete'];
   dataSource = new MatTableDataSource<Favorite>();
 
   connectedUser: ConnectedUser
