@@ -1,22 +1,42 @@
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.mat-elevation-z4 {
+    clip-path: polygon(0 0, 100% 1%, 100% 60%, 0 100%);
+
+}
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+    align-items: flex-start !important;
+}
+
 .home-container {
     position: sticky;
     position: -webkit-sticky; /* For macOS/iOS Safari */
     top: 0; /* Sets the sticky toolbar to be on top */
     z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
     .header{
+        padding-top: 15px;
         background-color: #92d36e;
+        height: 100px;
         h2{
+            padding-top: 15px;
+            font-size: 35px;
             color: white;
             font-family: Arial, Helvetica, sans-serif;
             font-style: italic;
             text-decoration: underline;
+            letter-spacing: 3px;
         }
         mat-icon {
+            padding-top: 13px;
             color: #1d6475;
             font-family: 'Material Icons';
             font-weight: normal;
             font-style: normal;
-            font-size: 32px; 
+            font-size: 40px; 
             text-transform: none;
             letter-spacing: normal;
             word-wrap: normal;
@@ -33,11 +53,7 @@
             /* Support for IE. */
             font-feature-settings: 'liga';
           }
-        a {
-            color: #1d6475;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: medium;
-        }
+
         .logout-btn{
             color: white;
             width: 150px;
@@ -47,4 +63,31 @@
         }
     }
     
+}
+
+.containerNav {
+    display: flex;
+    width: 30%;
+    justify-content: space-around;
+}
+
+.elementNav {
+    cursor: pointer;
+    color: white;
+    transition: 0.3s;
+    padding: 5px 13px;
+    border-radius: 10px;
+    font-size: 17px;
+}
+
+.elementNav:focus {
+    outline: none;
+}
+
+.active {
+    background-color: #1d6475;
+}
+
+.elementNav:hover {
+    background-color: #1d6475;
 }
