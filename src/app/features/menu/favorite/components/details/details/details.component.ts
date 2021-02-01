@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FavoriteService } from '../../../favorite.service'
 import { Favorite } from '../../../../../../shared/models/Favorite'
 import { ActivatedRoute } from '@angular/router';
+import { IndicatorService } from 'src/app/features/menu/indicator/core/indicator-service';
 
 
 @Component({
@@ -15,95 +16,25 @@ export class DetailsComponent implements OnInit {
   favorite: Favorite;
   indicatorLabel: string;
   durationLabel:string;
+  options = {};
+  hasErrors = false;
 
-// ===================================================
-
-options = {
-  legend: {
-    data: ['X-1', 'X-2', 'X-3', 'X-4', 'X-5']
-  },
-  grid: {
-    left: '3%',
-    right: '4%',
-    bottom: '3%',
-    containLabel: true
-  },
-  xAxis: [
-    {
-      type: 'category',
-      boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    }
-  ],
-  yAxis: [
-    {
-      type: 'value'
-    }
-  ],
-  series: [
-    {
-      name: 'X-1',
-      type: 'line',
-      stack: 'counts',
-      areaStyle: { normal: {} },
-      data: [120, 132, 101, 134, 90, 230, 210]
-    },
-    {
-      name: 'X-2',
-      type: 'line',
-      stack: 'counts',
-      areaStyle: { normal: {} },
-      data: [220, 182, 191, 234, 290, 330, 310]
-    },
-    {
-      name: 'X-3',
-      type: 'line',
-      stack: 'counts',
-      areaStyle: { normal: {} },
-      data: [150, 232, 201, 154, 190, 330, 410]
-    },
-    {
-      name: 'X-4',
-      type: 'line',
-      stack: 'counts',
-      areaStyle: { normal: {} },
-      data: [320, 332, 301, 334, 390, 330, 320]
-    },
-    {
-      name: 'X-5',
-      type: 'line',
-      stack: 'counts',
-      label: {
-        normal: {
-          show: true,
-          position: 'top'
-        }
-      },
-      areaStyle: { normal: {} },
-      data: [820, 932, 901, 934, 1290, 1330, 1320]
-    }
-  ]
-};
-
-//================================================================
-
-
-  constructor(private favoriteService: FavoriteService, private route: ActivatedRoute) { }
+  constructor(private favoriteService: FavoriteService, private indicatorService: IndicatorService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.id = parseInt(this.route.snapshot.paramMap.get('idFav'));
+    this.id = parseInt(this.route.snapshot.paramMap.get('idFavorite'));
     this.favoriteService.getFavoriteById(this.id).subscribe(
       res => {
         console.log(res[0]);
         this.favorite = res[0];
         this.getDurationLabel();
         this.getIndicatorLabel();
+        this.retrieveFavoriteData();
       }, 
       err => {
         console.log(err);
       }
     );
-
   }
 
   getDurationLabel(){
@@ -145,7 +76,50 @@ options = {
         this.indicatorLabel = "Humidité";
         break;
     }
+  }
 
+  retrieveFavoriteData() {
+    // this.indicatorService.retrieveLatestAirIndicator(this.favorite.township.name).subscribe(
+    //   res => {
+    //     this.hasErrors = false;
+    //     console.log(res);
+    //   }, 
+    //   err => {
+    //     this.hasErrors=true;
+    //     console.log(this.hasErrors);
+    //     console.log(err);
+    //   }
+    // );
+
+    this.options = {
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: [
+        {
+          type: 'category',
+          boundaryGap: false,
+          data: ['1h', '3h', '5h', '7h', '9h', '11h', '13h']
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value'
+        }
+      ],
+      series: [
+        {
+          name: 'X-1',
+          type: 'line',
+          stack: 'counts',
+          areaStyle: {},
+          data: [12, 13, 10, 13, 9, 23, 21]
+        }
+      ]
+    };
   }
 
 }
